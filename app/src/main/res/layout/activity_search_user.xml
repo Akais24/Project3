@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="400dp"
+    tools:context=".SearchUserActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginVertical="8dp"
+        android:text="유저를 검색해주세요"
+        android:textSize="16dp"
+        android:gravity="center"/>
+
+    <RelativeLayout
+        android:id="@+id/input_layout"
+        android:layout_below="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginVertical="8dp">
+        <TextView
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center|center_vertical"
+            android:text="검색"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            />
+
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/search_btn"
+            android:layout_marginHorizontal="8dp"
+            android:textSize="16dp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/result_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/input_layout"
+        android:text="검색결과"
+        android:textSize="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="4dp"
+        android:textStyle="bold"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/result_text"
+        android:id="@+id/search_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="16dp">
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

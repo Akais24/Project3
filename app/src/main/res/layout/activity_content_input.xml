@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="200dp"
+    tools:context=".ContentInputActivity">
+
+    <TextView
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="8dp"
+        android:background="@color/sy_brown"
+        android:text="내용"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textStyle="bold"/>
+
+    <RelativeLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/yes_btn"
+            android:layout_width="140dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:text="확인"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:layout_margin="4dp"
+            android:background="@color/sy_brown"/>
+
+        <Button
+            android:id="@+id/no_btn"
+            android:layout_width="140dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:text="취소"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:layout_margin="4dp"
+            android:background="@color/sy_brown"/>
+    </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/content_space"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_layout"
+        android:layout_above="@id/button_layout"
+        android:inputType="textCapSentences|textMultiLine"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        android:gravity="top"
+        android:background="@drawable/border_with_transparent_nontouch"/>
+
+</RelativeLayout>

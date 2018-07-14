@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_share"
+        app:showAsAction="always"
+        android:icon="@drawable/share_icon"
+        android:title="share" />
+    <item
+        android:id="@+id/menu_deletion"
+        app:showAsAction="always"
+        android:icon="@drawable/deletion_icon"
+        android:title="deletion" />
+    <!--<item-->
+        <!--android:id="@+id/menu_setting"-->
+        <!--app:showAsAction="always"-->
+        <!--android:icon="@drawable/settings_icon"-->
+        <!--android:title="setting"/>-->
+
+    <item
+        android:id="@+id/menu_detail"
+        android:title="상세정보"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/m2"
+        android:title="하하하"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/m3"
+        android:title="뭐하지"
+        app:showAsAction="never"/>
+</menu>

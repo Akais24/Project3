@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="add_inform_size">100dp</dimen>
+    <dimen name="add_text_size">20dp</dimen>
+    <dimen name="add_count_size">16dp</dimen>
+
+    <dimen name="signup_text">120dp</dimen>
+    <dimen name="signup_input">200dp</dimen>
+</resources>

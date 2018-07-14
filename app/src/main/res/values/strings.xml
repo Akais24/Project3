@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">떼인 돈 받아드립니다</string>
+
+    <string name="kakao_app_key">928656b97a57ae3706ba2034b3339ff4</string>
+
+    <string name="server_die">서버가 죽었닭</string>
+
+
+</resources>

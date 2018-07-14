@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="SomeColor">#1c76bb</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="kakao_theme">#FAFF00</color>
+    <color name="kakao_brown">#3C1E1B</color>
+
+    <color name="sy_pink">#FFA2C9</color>
+    <color name="sy_softpink">#FFD5E0</color>
+    <color name="sy_skyblue">#3399FF</color>
+    <color name="sy_brown">#7D5737</color>
+    <color name="sy_lightblue">#6DBCCC</color>
+    <color name="sy_lightgreen">#6DBC5D</color>
+
+    <color name="sy_mint">#9DE4FF</color>
+
+</resources>
