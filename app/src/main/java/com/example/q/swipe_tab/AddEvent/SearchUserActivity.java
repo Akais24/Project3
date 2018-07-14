@@ -1,4 +1,4 @@
-package com.example.q.swipe_tab;
+package com.example.q.swipe_tab.AddEvent;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.q.swipe_tab.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

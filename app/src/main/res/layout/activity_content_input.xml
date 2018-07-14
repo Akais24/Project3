@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="200dp"
-    tools:context=".ContentInputActivity">
+    tools:context=".AddEvent.ContentInputActivity">
 
     <TextView
         android:id="@+id/title_layout"

@@ -1,4 +1,4 @@
-package com.example.q.swipe_tab;
+package com.example.q.swipe_tab.AddEvent;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.q.swipe_tab.R;
 
 public class ContentInputActivity extends AppCompatActivity implements View.OnClickListener {
     Button yes, no;

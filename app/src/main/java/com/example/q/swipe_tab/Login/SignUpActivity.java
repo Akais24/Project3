@@ -1,4 +1,4 @@
-package com.example.q.swipe_tab;
+package com.example.q.swipe_tab.Login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.q.swipe_tab.MainActivity;
+import com.example.q.swipe_tab.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;

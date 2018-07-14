@@ -1,4 +1,4 @@
-package com.example.q.swipe_tab;
+package com.example.q.swipe_tab.AddEvent;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.File;
+import com.example.q.swipe_tab.R;
+
 import java.util.ArrayList;
 
 public class Add_Adapter extends RecyclerView.Adapter<Add_Adapter.ViewHolder>{

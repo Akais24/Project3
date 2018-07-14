@@ -1,4 +1,4 @@
-package com.example.q.swipe_tab;
+package com.example.q.swipe_tab.AddEvent;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
-import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,10 +18,11 @@ import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.q.swipe_tab.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;

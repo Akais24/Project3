@@ -6,14 +6,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".GlobalApplication"
+        android:name=".Login.GlobalApplication"
         android:allowBackup="true"
         android:icon="@drawable/cookie"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".Login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,21 +25,21 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
-        <activity android:name=".KakaoSignupActivity" />
+        <activity android:name=".Login.KakaoSignupActivity" />
         <activity android:name=".MainActivity" />
         <activity
-            android:name=".AddActivity"
+            android:name=".AddEvent.AddActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".SearchUserActivity"
+            android:name=".AddEvent.SearchUserActivity"
             android:theme="@style/myDialog" />
         <activity
-            android:name=".CalculationActivity"
+            android:name=".AddEvent.CalculationActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ContentInputActivity"
+            android:name=".AddEvent.ContentInputActivity"
             android:theme="@style/myDialog" />
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".Login.SignUpActivity"></activity>
     </application>
 
 </manifest>

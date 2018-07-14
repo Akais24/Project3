@@ -7,20 +7,14 @@ import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import com.example.q.swipe_tab.AddEvent.AddActivity;
 
-import jp.wasabeef.glide.transformations.internal.Utils;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     String nickname;
@@ -28,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String image_url;
 
     private FloatingActionButton fab_add;
+    ImageView send_more, receive_more;
+    RecyclerView send_rv, receive_rv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +31,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         fab_add = findViewById(R.id.fab_add);
+        send_more = findViewById(R.id.send_more_info);
+        receive_more = findViewById(R.id.receive_more_info);
+        send_rv = findViewById(R.id.send_statistic_rv);
+        receive_rv = findViewById(R.id.receive_statistic_rv);
+
+
+
         fab_add.setOnClickListener(this);
     }
 
