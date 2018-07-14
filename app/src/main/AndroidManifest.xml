@@ -39,7 +39,8 @@
         <activity
             android:name=".AddEvent.ContentInputActivity"
             android:theme="@style/myDialog" />
-        <activity android:name=".Login.SignUpActivity"></activity>
+        <activity android:name=".Login.SignUpActivity" />
+        <activity android:name=".MoreInfoActivity"></activity>
     </application>
 
 </manifest>

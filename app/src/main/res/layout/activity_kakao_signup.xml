@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login.KakaoSignupActivity">
+    tools:context=".Login.KakaoSignupActivity"
+    android:background="@color/sy_softpink">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+
+        android:gravity="center"
+        android:text="접속 중~"
+        android:textSize="40dp"
+        android:textColor="@color/sy_brown"/>
+
+</RelativeLayout>
