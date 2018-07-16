@@ -48,6 +48,8 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".AddEvent.ArithmeticActivity"
             android:theme="@style/myDialog"></activity>
+        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".App"></activity>
     </application>
 
 </manifest>
