@@ -34,7 +34,7 @@ public class Statistic_Adapter extends RecyclerView.Adapter<Statistic_Adapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MainActivity.Event target= events.get(position);
 
-        holder.money.setText(String.valueOf(target.price));
+        holder.money.setText(String.valueOf(target.price) + "원");
         String explan = target.name + "(" + target.nickname + ")";
         holder.name.setText(explan);
     }
