@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,7 +28,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     final int SEND = 0;
     final int RECEIVE = 1;
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView send_more, receive_more;
     RecyclerView send_rv, receive_rv;
     TextView send_total, receive_total;
+    SwipeRefreshLayout srl;
 
     ArrayList<Event> send_list, receive_list;
     Statistic_Adapter send_adapter, receive_adapter;
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         receive_rv = findViewById(R.id.receive_statistic_rv);
         send_total = findViewById(R.id.send_space);
         receive_total = findViewById(R.id.receive_space);
+        srl = findViewById(R.id.swipe);
 
         fab_add.setOnClickListener(this);
         send_more.setOnClickListener(this);
@@ -72,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage("로딩 중입니다");
 
-        mProgressDialog.show();
 
         LinearLayoutManager llm1 = new LinearLayoutManager(this);
         LinearLayoutManager llm2 = new LinearLayoutManager(this);
@@ -80,7 +82,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         llm2.setOrientation(LinearLayoutManager.VERTICAL);
         send_rv.setLayoutManager(llm1);
         receive_rv.setLayoutManager(llm2);
+        srl.setOnRefreshListener(this);
 
+        update_main();
+    }
+
+    public void update_main(){
+        mProgressDialog.show();
         final int[] count = {0};
         send_list = new ArrayList<>();
         receive_list = new ArrayList<>();
@@ -167,6 +175,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(more_info);
                 break;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        update_main();
+        srl.setRefreshing(false);
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

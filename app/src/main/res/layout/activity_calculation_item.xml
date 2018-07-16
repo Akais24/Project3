@@ -21,7 +21,7 @@
                 android:inputType="number"
                 android:textColor="@color/sy_brown"
                 android:gravity="right"
-                android:textSize="@dimen/add_text_size"
+                android:textSize="16dp"
                 android:textStyle="bold"/>
             <TextView
                 android:id="@+id/debtor_name"

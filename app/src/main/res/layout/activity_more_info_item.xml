@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/overall"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginVertical="4dp">
+        <TextView
+            android:id="@+id/id_text"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/more_info_item_id_width"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:layout_marginHorizontal="2dp"
+
+            android:text="#"
+            android:gravity="center"
+            android:textColor="@color/sy_brown"
+            android:textSize="@dimen/more_info_item_text_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/date_text"
+            android:layout_toRightOf="@id/id_text"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/more_info_item_date_width"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:layout_marginHorizontal="2dp"
+
+            android:text="날짜"
+            android:gravity="center"
+            android:textColor="@color/sy_brown"
+            android:textSize="@dimen/more_info_item_text_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/name_text"
+            android:layout_toRightOf="@id/date_text"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/more_info_item_name_width"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:layout_marginHorizontal="2dp"
+
+            android:text="이름(닉네임)"
+            android:gravity="center"
+            android:textColor="@color/sy_brown"
+            android:textSize="@dimen/more_info_item_text_size"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/price_text"
+            android:layout_toRightOf="@id/name_text"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/more_info_item_price_width"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:layout_marginHorizontal="2dp"
+
+            android:text="금액"
+            android:gravity="center"
+            android:textColor="@color/sy_brown"
+            android:textSize="@dimen/more_info_item_text_size"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</RelativeLayout>
