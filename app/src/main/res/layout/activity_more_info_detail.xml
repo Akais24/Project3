@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
-    android:layout_height="400dp"
+    android:layout_height="wrap_content"
     tools:context=".AddEvent.SearchUserActivity">
 
     <TextView
@@ -11,9 +11,283 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginVertical="8dp"
-        android:gravity="center"
         android:text="자세히 보기"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
+    <RelativeLayout
+        android:id="@+id/date_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginVertical="2dp">
+
+        <TextView
+            android:id="@+id/date_text"
+            android:layout_width="@dimen/add_inform_size"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+
+            android:text="날짜"
+            android:gravity="right"
+            android:textSize="@dimen/more_info_text_size"
+            android:textColor="@color/sy_brown"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/date_space"
+            android:layout_width="@dimen/add_space_size"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/date_text"
+            android:gravity="center|center_vertical"
+
+            android:text="Not choosed"
+            android:textSize="@dimen/more_info_item_text_size"
+            android:textColor="@color/sy_brown"
+            android:textStyle="bold"
+            android:paddingVertical="4dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/border_with_transparent"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/creditor_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date_layout"
+        android:layout_marginVertical="2dp">
+        <TextView
+            android:id="@+id/creditor_text"
+            android:layout_width="@dimen/add_inform_size"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="채권자"
+            android:gravity="right"
+            android:textSize="@dimen/more_info_text_size"
+            android:textColor="@color/sy_brown"
+            android:textStyle="bold"/>
+
+
+        <TextView
+            android:id="@+id/creditor_space"
+            android:layout_width="@dimen/add_space_size"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/creditor_text"
+            android:gravity="center|center_vertical"
+
+            android:text="내 이름"
+            android:textSize="@dimen/more_info_item_text_size"
+            android:textColor="@color/sy_brown"
+            android:textStyle="bold"
+            android:paddingVertical="4dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/border_with_transparent"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/debtor_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/creditor_layout"
+        android:layout_marginVertical="2dp">
+        <TextView
+            android:id="@+id/debtor_text"
+            android:layout_width="@dimen/add_inform_size"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="채무자"
+            android:gravity="right"
+            android:textSize="@dimen/more_info_text_size"
+            android:textColor="@color/sy_brown"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/debtor_space"
+            android:layout_width="@dimen/add_space_size"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/debtor_text"
+            android:gravity="center|center_vertical"
+
+            android:text="걔 이름"
+            android:textSize="@dimen/more_info_item_text_size"
+            android:textColor="@color/sy_brown"
+            android:textStyle="bold"
+            android:paddingVertical="4dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/border_with_transparent"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/price_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/debtor_layout"
+        android:layout_marginVertical="2dp">
+        <TextView
+            android:id="@+id/price_text"
+            android:layout_width="@dimen/add_inform_size"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="금액"
+            android:gravity="right"
+            android:textSize="@dimen/more_info_text_size"
+            android:textColor="@color/sy_brown"
+            android:textStyle="bold"/>
+
+
+        <TextView
+            android:id="@+id/price_space"
+            android:layout_width="@dimen/add_space_size"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/price_text"
+            android:gravity="center|center_vertical"
+
+            android:text="0원"
+            android:textSize="@dimen/more_info_item_text_size"
+            android:textColor="@color/sy_brown"
+            android:textStyle="bold"
+            android:paddingVertical="4dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/border_with_transparent"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/price_layout"
+        android:layout_marginVertical="2dp">
+
+        <TextView
+            android:id="@+id/content_text"
+            android:layout_width="@dimen/add_inform_size"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="right"
+            android:text="내용"
+            android:textColor="@color/sy_brown"
+            android:textSize="@dimen/more_info_text_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/content_space"
+            android:layout_width="@dimen/add_space_size"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_toRightOf="@id/content_text"
+            android:background="@drawable/border_with_transparent"
+            android:gravity="center|center_vertical"
+
+            android:paddingVertical="4dp"
+            android:text="내용을 입력해주세요"
+            android:textColor="@color/sy_brown"
+            android:textSize="@dimen/more_info_item_text_size"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/account_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content_layout"
+        android:layout_marginVertical="2dp">
+        <TextView
+            android:id="@+id/account_text"
+            android:layout_width="@dimen/add_inform_size"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="입금계좌"
+            android:gravity="right"
+            android:textSize="@dimen/more_info_text_size"
+            android:textColor="@color/sy_brown"
+            android:textStyle="bold"/>
+
+
+        <TextView
+            android:id="@+id/account_space"
+            android:layout_width="@dimen/add_space_size"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/account_text"
+            android:gravity="center|center_vertical"
+
+            android:text="우리 1000 000 000000"
+            android:textSize="@dimen/more_info_item_text_size"
+            android:textColor="@color/sy_brown"
+            android:textStyle="bold"
+            android:paddingVertical="4dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/border_with_transparent"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/send_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/account_layout"
+        android:layout_marginHorizontal="8dp"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="8dp"
+        android:visibility="gone">
+        <Button
+            android:id="@+id/only_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_alignParentLeft="true"
+
+            android:background="@color/sy_brown"
+            android:textColor="@color/white"
+            android:text="계좌 번호 복사"
+            android:textSize="16dp"/>
+        <Button
+            android:id="@+id/name_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/only_number"
+
+            android:background="@color/sy_brown"
+            android:textColor="@color/white"
+            android:text="은행명 + 계좌 번호 복사"
+            android:textSize="16dp"/>
+        <Button
+            android:id="@+id/name_number_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/name_number"
+
+            android:background="@color/sy_brown"
+            android:textColor="@color/white"
+            android:text="은행명 + 계좌 번호 + 금액 복사"
+            android:textSize="16dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/receive_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/account_layout"
+        android:layout_marginHorizontal="8dp"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="8dp"
+        android:visibility="gone">
+        <Button
+            android:id="@+id/ask_again"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_alignParentLeft="true"
+
+            android:background="@color/sy_brown"
+            android:textColor="@color/white"
+            android:text="독촉하기"
+            android:textSize="16dp"/>
+    </RelativeLayout>
 
 
 </RelativeLayout>

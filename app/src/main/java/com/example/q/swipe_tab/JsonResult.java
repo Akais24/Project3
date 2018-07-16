@@ -13,3 +13,8 @@ class user_inform_response{
     String nickname;
     String account_info;
 }
+
+class account_response {
+    String result;
+    String account_info;
+}

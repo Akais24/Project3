@@ -18,6 +18,7 @@ import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,13 +37,10 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     Toolbar mytoolbar;
 
     RecyclerView rv;
-    TextView count;
-    TextView myname;
-    FloatingActionButton add;
+    TextView count, myname;
     RelativeLayout next;
 
-    TextView date;
-    TextView content;
+    TextView date, content, add;
 
     ArrayList<User> real_debters = new ArrayList<>();
 
@@ -52,6 +50,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     int mYear, mMonth, mDay;
     String picked_date, raw_content, unique_id;
+
+    LinearLayout limit;
 
 
     @Override
@@ -70,7 +70,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         rv = findViewById(R.id.rv);
         count = findViewById(R.id.count_view);
         myname = findViewById(R.id.creditor_name);
-        add = findViewById(R.id.add_debter);
+        add = findViewById(R.id.add_btn);
         next = findViewById(R.id.next);
         date = findViewById(R.id.date_btn);
         content = findViewById(R.id.content_btn);
@@ -104,19 +104,11 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.add_debter:
+            case R.id.add_btn:
                 Log.d("444444", "ADD");
 
                 Intent search = new Intent(AddActivity.this, SearchUserActivity.class);
                 startActivityForResult(search, SEARCH_CODE);
-
-//                User newuser = new User("1111", "haha", "nick");
-//                real_debters.add(newuser);
-//
-//                debters.add("Dummy" + String.valueOf(debters.size()));
-//                count.setText("(총 " + String.valueOf(debters.size() + 1) + "명)");
-//                mAdapter = new Add_Adapter(AddActivity.this, debters, this);
-//                rv.setAdapter(mAdapter);
                 break;
             case R.id.next:
                 if(real_debters.size() == 0){
