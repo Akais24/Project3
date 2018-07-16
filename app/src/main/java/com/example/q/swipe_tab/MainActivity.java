@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ import com.koushikdutta.ion.Ion;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     final int SEND = 0;
@@ -35,8 +37,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String name;
     String nickname;
     String unique_id;
+    String image_url;
 
     private FloatingActionButton fab_add;
+    Button settings;
     ImageView send_more, receive_more;
     RecyclerView send_rv, receive_rv;
     TextView send_total, receive_total;
@@ -62,10 +66,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         send_total = findViewById(R.id.send_space);
         receive_total = findViewById(R.id.receive_space);
         srl = findViewById(R.id.swipe);
+        settings = findViewById(R.id.settings);
 
         fab_add.setOnClickListener(this);
         send_more.setOnClickListener(this);
         receive_more.setOnClickListener(this);
+        settings.setOnClickListener(this);
 
         final SharedPreferences test = getSharedPreferences("local", MODE_PRIVATE);
         name = test.getString("name", null);
@@ -149,6 +155,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent more_info;
         Bundle args;
         switch (v.getId()) {
+            case R.id.settings:
+                Intent settings = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settings);
+                break;
             case R.id.fab_add:
                 //do add activity
                 Intent add = new Intent(MainActivity.this, AddActivity.class);
