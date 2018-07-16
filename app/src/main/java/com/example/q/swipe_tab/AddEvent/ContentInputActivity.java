@@ -31,6 +31,8 @@ public class ContentInputActivity extends AppCompatActivity implements View.OnCl
 
         yes.setOnClickListener(this);
         no.setOnClickListener(this);
+
+        content.requestFocus();
     }
 
     @Override

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginHorizontal="8dp">
 
     <android.support.v7.widget.CardView
@@ -10,11 +11,23 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_alignParentRight="true"
+                app:fabSize="mini"
+                android:id="@+id/calc_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:borderWidth="0dp"
+                android:backgroundTint="@color/sy_softpink"
+                android:layout_margin="4dp"
+                android:src="@drawable/calculator"/>
+
             <EditText
                 android:id="@+id/money"
-                android:layout_width="80dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@id/calc_btn"
                 android:layout_centerVertical="true"
                 android:layout_marginHorizontal="16dp"
 
@@ -35,8 +48,7 @@
                 android:text="이름(닉네임)"
                 android:gravity="center_vertical|left"
                 android:textColor="@color/sy_brown"
-                android:textSize="@dimen/add_text_size"
-                android:textStyle="bold"/>
+                android:textSize="@dimen/more_info_text_size"/>
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

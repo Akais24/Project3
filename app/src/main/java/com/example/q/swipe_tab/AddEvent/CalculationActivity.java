@@ -29,6 +29,8 @@ import com.koushikdutta.ion.Ion;
 import java.util.ArrayList;
 
 public class CalculationActivity extends AppCompatActivity implements View.OnClickListener {
+    final int ARITH = 1000;
+
     android.support.v7.widget.Toolbar mytoolbar;
     RecyclerView calcul_rv;
     RelativeLayout next;
@@ -202,5 +204,23 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case ARITH:
+                if(data == null) return;
+                String value = data.getStringExtra("value");
+                int index = data.getIntExtra("index", 0);
+                int count = 0;
+                for (int childCount = calcul_rv.getChildCount(), i = 0; i < childCount; ++i) {
+                    if(count == index){
+                        final Calculation_Adapter.ViewHolder holder = (Calculation_Adapter.ViewHolder) calcul_rv.getChildViewHolder(calcul_rv.getChildAt(i));
+                        holder.money_view.setText(value);
+                    }
+                    count++;
+                }
+                break;
 
+        }
+    }
 }

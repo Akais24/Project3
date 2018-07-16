@@ -216,14 +216,101 @@
         </RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <TextView
+        android:id="@+id/cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CC000000"
+        android:visibility="invisible"
+        android:textColor="#FFFFFF"
+        android:layout_gravity="center"
+        android:gravity="center"
+        />
+
+    <LinearLayout
+        android:id="@+id/fab2_ex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="128dp"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="@dimen/fab_text_width"
+            android:layout_height="wrap_content"
+            android:text="랜덤 만들기"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/fab_text_size"
+            android:gravity="right"
+            android:layout_gravity="center"/>
+
+        <android.support.design.widget.FloatingActionButton
+
+            android:id="@+id/fab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/add_icon"
+            app:backgroundTint="@color/sy_softpink"
+            app:elevation="6dp"
+            android:layout_marginLeft="@dimen/fab_margin_left"
+            android:layout_marginRight="@dimen/fab_margin_right"
+            android:layout_marginVertical="16dp"
+            app:pressedTranslationZ="12dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fab1_ex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="72dp"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="@dimen/fab_text_width"
+            android:layout_height="wrap_content"
+            android:text="새로 만들기"
+            android:textSize="@dimen/fab_text_size"
+            android:gravity="right"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/add_icon"
+            app:backgroundTint="@color/sy_softpink"
+            app:elevation="6dp"
+            android:layout_marginLeft="@dimen/fab_margin_left"
+            android:layout_marginRight="@dimen/fab_margin_right"
+            android:layout_marginVertical="16dp"
+            app:pressedTranslationZ="12dp" />
+    </LinearLayout>
+
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_add"
+        android:id="@+id/fab"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:backgroundTint="@color/sy_softpink"
         android:src="@drawable/add_icon"
+        app:borderWidth="0dp"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_x"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/sy_softpink"
+        android:src="@drawable/x_icon"
+        android:visibility="invisible"
         app:borderWidth="0dp"/>
 
 </FrameLayout>

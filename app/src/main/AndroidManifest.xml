@@ -38,12 +38,16 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".AddEvent.ContentInputActivity"
-            android:theme="@style/myDialog" />
+            android:theme="@style/myDialog"
+            android:windowSoftInputMode="stateAlwaysVisible" />
         <activity android:name=".Login.SignUpActivity" />
         <activity android:name=".MoreInfoActivity" />
-        <activity android:name=".MoreInfo_DetailActivity"
-            android:theme="@style/myDialog" ></activity>
-        <activity android:name=".SettingsActivity"></activity>
+        <activity
+            android:name=".MoreInfo_DetailActivity"
+            android:theme="@style/myDialog" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".AddEvent.ArithmeticActivity"
+            android:theme="@style/myDialog"></activity>
     </application>
 
 </manifest>

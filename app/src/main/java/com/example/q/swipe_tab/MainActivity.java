@@ -14,8 +14,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.q.swipe_tab.AddEvent.AddActivity;
@@ -34,12 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final int SEND = 0;
     final int RECEIVE = 1;
 
-    String name;
-    String nickname;
-    String unique_id;
-    String image_url;
+    String name, nickname, unique_id;
 
-    private FloatingActionButton fab_add;
     Button settings;
     ImageView send_more, receive_more;
     RecyclerView send_rv, receive_rv;
@@ -53,12 +52,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String server_url = "http://52.231.153.77:8080/";
     Gson gson = new Gson();
 
+    private Animation fab_open, fab_close;
+    private FloatingActionButton fab, fab_x, fab1, fab2;
+    private LinearLayout fab1_ex, fab2_ex;
+    TextView cover;
+    private Boolean isFabOpen = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fab_add = findViewById(R.id.fab_add);
         send_more = findViewById(R.id.send_more_info);
         receive_more = findViewById(R.id.receive_more_info);
         send_rv = findViewById(R.id.send_statistic_rv);
@@ -68,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         srl = findViewById(R.id.swipe);
         settings = findViewById(R.id.settings);
 
-        fab_add.setOnClickListener(this);
         send_more.setOnClickListener(this);
         receive_more.setOnClickListener(this);
         settings.setOnClickListener(this);
@@ -81,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage("로딩 중입니다");
 
-
         LinearLayoutManager llm1 = new LinearLayoutManager(this);
         LinearLayoutManager llm2 = new LinearLayoutManager(this);
         llm1.setOrientation(LinearLayoutManager.VERTICAL);
@@ -91,6 +93,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         srl.setOnRefreshListener(this);
 
         update_main();
+
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+
+        fab = findViewById(R.id.fab);
+        fab_x = findViewById(R.id.fab_x);
+        fab1 = findViewById(R.id.fab1);
+        fab1_ex = findViewById(R.id.fab1_ex);
+        fab2 = findViewById(R.id.fab2);
+        fab2_ex = findViewById(R.id.fab2_ex);
+        cover = findViewById(R.id.cover);
+
+        fab.setOnClickListener(this);
+        cover.setOnClickListener(this);
+        fab1.setOnClickListener(this);
+        fab2.setOnClickListener(this);
+
     }
 
     public void update_main(){
@@ -159,11 +178,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent settings = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(settings);
                 break;
-            case R.id.fab_add:
-                //do add activity
-                Intent add = new Intent(MainActivity.this, AddActivity.class);
-                startActivity(add);
-                break;
+//            case R.id.fab_add:
+//                //do add activity
+//                Intent add = new Intent(MainActivity.this, AddActivity.class);
+//                startActivity(add);
+//                break;
             case R.id.send_more_info:
                 more_info = new Intent(MainActivity.this, MoreInfoActivity.class);
 
@@ -184,6 +203,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 startActivity(more_info);
                 break;
+            case R.id.fab:
+            case R.id.cover:
+                anim();
+                break;
+            case R.id.fab_x:
+                anim();
+                break;
+            case R.id.fab1:
+                Intent add = new Intent(MainActivity.this, AddActivity.class);
+                startActivity(add);
+                anim();
+                break;
+            case R.id.fab2:
+                anim();
+                break;
+
         }
     }
 
@@ -223,5 +258,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Integer price;
         String date;
         String info;
+    }
+
+    public void anim() {
+        if (isFabOpen) {
+            fab.setVisibility(View.VISIBLE);
+            fab_x.setVisibility(View.INVISIBLE);
+            fab1_ex.startAnimation(fab_close);
+            fab2_ex.startAnimation(fab_close);;
+            fab1.setClickable(false);
+            fab2.setClickable(false);
+            cover.setVisibility(View.INVISIBLE);
+            isFabOpen = false;
+        } else {
+            fab.setVisibility(View.INVISIBLE);
+            fab_x.setVisibility(View.VISIBLE);
+            fab1_ex.startAnimation(fab_open);
+            fab2_ex.startAnimation(fab_open);
+            fab1.setClickable(true);
+            fab2.setClickable(true);
+            cover.setVisibility(View.VISIBLE);
+            isFabOpen = true;
+        }
     }
 }

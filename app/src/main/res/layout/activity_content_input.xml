@@ -59,6 +59,7 @@
         android:padding="8dp"
         android:layout_margin="8dp"
         android:gravity="top"
-        android:background="@drawable/border_with_transparent_nontouch"/>
+        android:background="@drawable/border_with_transparent_nontouch"
+        />
 
 </RelativeLayout>
