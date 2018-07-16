@@ -1,8 +1,13 @@
 package com.example.q.swipe_tab.Login;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 
 import com.example.q.swipe_tab.R;
@@ -10,6 +15,9 @@ import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import static com.kakao.util.helper.Utility.getPackageInfo;
 
@@ -25,26 +33,26 @@ public class LoginActivity  extends Activity {
         callback = new SessionCallback();                  // 이 두개의 함수 중요함
         Session.getCurrentSession().addCallback(callback);
 
-//        String hashkey = getKeyHash(getApplicationContext());
-//        Log.d("4444", hashkey);
+        String hashkey = getKeyHash(getApplicationContext());
+        Log.d("4444", hashkey);
     }
-//
-//    public static String getKeyHash(final Context context) {
-//        PackageInfo packageInfo = getPackageInfo(context, PackageManager.GET_SIGNATURES);
-//        if (packageInfo == null)
-//            return null;
-//
-//        for (Signature signature : packageInfo.signatures) {
-//            try {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                return Base64.encodeToString(md.digest(), Base64.NO_WRAP);
-//            } catch (NoSuchAlgorithmException e) {
-//                Log.w("444444", "Unable to get MessageDigest. signature=" + signature, e);
-//            }
-//        }
-//        return null;
-//    }
+
+    public static String getKeyHash(final Context context) {
+        PackageInfo packageInfo = getPackageInfo(context, PackageManager.GET_SIGNATURES);
+        if (packageInfo == null)
+            return null;
+
+        for (Signature signature : packageInfo.signatures) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                return Base64.encodeToString(md.digest(), Base64.NO_WRAP);
+            } catch (NoSuchAlgorithmException e) {
+                Log.w("444444", "Unable to get MessageDigest. signature=" + signature, e);
+            }
+        }
+        return null;
+    }
 
 
     @Override

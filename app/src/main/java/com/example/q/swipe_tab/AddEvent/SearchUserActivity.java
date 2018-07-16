@@ -73,19 +73,19 @@ public class SearchUserActivity extends AppCompatActivity implements View.OnClic
                                 debters = new ArrayList<>();
                                 Log.d("44444", String.valueOf(result));
                                 if(result == null){
-                                    Toast.makeText(getApplicationContext(), getString(R.string.server_die), Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                                for(int i=0; i<result.size(); i++){
-                                    search_result newone = gson.fromJson(result.get(i), search_result.class);
-                                    saved.add(newone);
-                                    User newuser = new User(newone.unique_id, newone.name, newone.nickname);
-                                    debters.add(newuser);
-                                }
-                                if(debters.size() == 0) debters.add(new User("","해당 유저 없음", ""));
-                                mAdapter = new Search_Adapter(SearchUserActivity.this, debters, SearchUserActivity.this);
-                                search_rv.setAdapter(mAdapter);
+                                Toast.makeText(getApplicationContext(), getString(R.string.server_die), Toast.LENGTH_SHORT).show();
+                                return;
                             }
+                                for(int i=0; i<result.size(); i++){
+                                search_result newone = gson.fromJson(result.get(i), search_result.class);
+                                saved.add(newone);
+                                User newuser = new User(newone.unique_id, newone.name, newone.nickname);
+                                debters.add(newuser);
+                            }
+                                if(debters.size() == 0) debters.add(new User("","해당 유저 없음", ""));
+                            mAdapter = new Search_Adapter(SearchUserActivity.this, debters, SearchUserActivity.this);
+                                search_rv.setAdapter(mAdapter);
+                        }
                         });
 
                 break;

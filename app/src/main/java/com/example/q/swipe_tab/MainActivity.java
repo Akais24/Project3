@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.q.swipe_tab.AddEvent.AddActivity;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String image_url;
 
     private FloatingActionButton fab_add;
+    Button settings;
     ImageView send_more, receive_more;
     RecyclerView send_rv, receive_rv;
 
@@ -35,9 +38,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         receive_more = findViewById(R.id.receive_more_info);
         send_rv = findViewById(R.id.send_statistic_rv);
         receive_rv = findViewById(R.id.receive_statistic_rv);
+        settings = findViewById(R.id.settings);
 
-
-
+        settings.setOnClickListener(this);
         fab_add.setOnClickListener(this);
     }
 
@@ -49,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent add = new Intent(MainActivity.this, AddActivity.class);
                 startActivity(add);
                 break;
+            case R.id.settings:
+                Intent settings = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settings);
         }
     }
 
