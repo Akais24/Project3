@@ -39,4 +39,5 @@ dependencies {
     // 카카오톡 sdk를 사용하기 위해 필요.
     implementation group: 'com.kakao.sdk', name: 'push', version: project.KAKAO_SDK_VERSION
     // push sdk를 사용하기 위해 필요.
+    compile "com.tsengvn:Typekit:1.0.0"
 }

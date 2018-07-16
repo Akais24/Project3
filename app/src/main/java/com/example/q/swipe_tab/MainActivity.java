@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String image_url;
 
     private FloatingActionButton fab_add;
-    Button settings;
+    ImageView settings;
     ImageView send_more, receive_more;
     RecyclerView send_rv, receive_rv;
     TextView send_total, receive_total;

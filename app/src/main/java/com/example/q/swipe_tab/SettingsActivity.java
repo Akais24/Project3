@@ -21,14 +21,15 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     EditText change_uinfo_name;
     EditText change_uinfo_nickname;
     EditText change_uinfo_account_info;
-    Button submit_uinfo;
+    Button submit_uinfo, backtomain;
     String name, nickname, account_info, searchurl, uid;
     Gson gson = new Gson();
+    SharedPreferences info;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        final SharedPreferences info = getSharedPreferences("local", MODE_PRIVATE);
+        info = getSharedPreferences("local", MODE_PRIVATE);
         name = info.getString("name", null);
         nickname = info.getString("nickname", null);
         account_info = info.getString("acount_info", null);
@@ -41,6 +42,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
         change_uinfo_name.setText(name);
 
+        backtomain = findViewById(R.id.backto_main);
+        backtomain.setOnClickListener(this);
         change_uinfo_nickname.setText(nickname);
         change_uinfo_account_info.setText(account_info);
         change_uinfo_name.setOnClickListener(this);
@@ -53,6 +56,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         public void onClick(View v) {
             JsonObject json = new JsonObject();
             switch(v.getId()){
+                case R.id.backto_main:
+                    finish();
                 case R.id.submit_uinfo:
                     if (change_uinfo_account_info.getText().length()>0){ account_info = change_uinfo_account_info.getText().toString();}
                     if (change_uinfo_name.getText().length()>0){ nickname = change_uinfo_nickname.getText().toString();}
@@ -77,6 +82,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                                         Toast.makeText(getApplicationContext(), "회원 정보 변경에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                                         return;
                                     } else {
+                                        SharedPreferences.Editor editor = info.edit();
+                                        editor.putString("acount_info", account_info);
+                                        editor.putString("name", name);
+                                        editor.putString("nickname", nickname);
+                                        editor.commit();
                                         Log.d("44444", "회원 정보 변경에 성공하였습니다.");
                                         finish();
                                     }
