@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="add_inform_size">100dp</dimen>
+    <dimen name="add_inform_size">80dp</dimen>
     <dimen name="add_text_size">20dp</dimen>
     <dimen name="add_count_size">16dp</dimen>
+    <dimen name="add_space_size">220dp</dimen>
 
     <dimen name="signup_text">120dp</dimen>
     <dimen name="signup_input">200dp</dimen>
+
+    <dimen name="more_info_id_width">60dp</dimen>
+    <dimen name="more_info_date_width">80dp</dimen>
+    <dimen name="more_info_name_width">100dp</dimen>
+    <dimen name="more_info_price_width">100dp</dimen>
+    <dimen name="more_info_text_size">16dp</dimen>
+
+    <dimen name="more_info_item_id_width">40dp</dimen>
+    <dimen name="more_info_item_date_width">80dp</dimen>
+    <dimen name="more_info_item_name_width">120dp</dimen>
+    <dimen name="more_info_item_price_width">100dp</dimen>
+    <dimen name="more_info_item_text_size">12dp</dimen>
 </resources>

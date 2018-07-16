@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MoreInfoActivity"
+    android:background="@color/sy_mint">
+
+    <RelativeLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/add_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/sy_pink">
+        </android.support.v7.widget.Toolbar>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="상세보기"
+            android:textSize="22dp"
+            android:textColor="@color/white"/>
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/explanaion_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_below="@id/toolbar_layout"
+        app:cardCornerRadius="8dp">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginVertical="4dp"
+            android:clickable="false"
+            android:background="?android:attr/selectableItemBackground">
+            <TextView
+                android:id="@+id/id_text"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/more_info_item_id_width"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:layout_marginHorizontal="2dp"
+
+                android:text="#"
+                android:gravity="center"
+                android:textColor="@color/sy_brown"
+                android:textSize="@dimen/more_info_item_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/date_text"
+                android:layout_toRightOf="@id/id_text"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/more_info_item_date_width"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:layout_marginHorizontal="2dp"
+
+                android:text="날짜"
+                android:gravity="center"
+                android:textColor="@color/sy_brown"
+                android:textSize="@dimen/more_info_item_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/name_text"
+                android:layout_toRightOf="@id/date_text"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/more_info_item_name_width"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:layout_marginHorizontal="2dp"
+
+                android:text="이름(닉네임)"
+                android:gravity="center"
+                android:textColor="@color/sy_brown"
+                android:textSize="@dimen/more_info_item_text_size"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/price_text"
+                android:layout_toRightOf="@id/name_text"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/more_info_item_price_width"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:layout_marginHorizontal="2dp"
+
+                android:text="금액"
+                android:gravity="center"
+                android:textColor="@color/sy_brown"
+                android:textSize="@dimen/more_info_item_text_size"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/data_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="16dp"
+        app:cardCornerRadius="8dp"
+        android:layout_below="@id/explanaion_layout">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/moreinfo_srl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/moreinfo_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:background="?android:attr/selectableItemBackground"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

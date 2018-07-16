@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="8dp">
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -10,7 +11,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <EditText
+            <TextView
                 android:id="@+id/money"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
@@ -18,13 +19,13 @@
                 android:layout_centerVertical="true"
                 android:layout_marginHorizontal="16dp"
 
-                android:inputType="number"
+                android:text="0원"
                 android:textColor="@color/sy_brown"
                 android:gravity="right"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:textStyle="bold"/>
             <TextView
-                android:id="@+id/debtor_name"
+                android:id="@+id/name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -35,7 +36,7 @@
                 android:text="이름(닉네임)"
                 android:gravity="center_vertical|left"
                 android:textColor="@color/sy_brown"
-                android:textSize="@dimen/add_text_size"
+                android:textSize="14dp"
                 android:textStyle="bold"/>
 
         </RelativeLayout>
