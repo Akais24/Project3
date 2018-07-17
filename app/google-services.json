@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "716993694434",
+    "firebase_url": "https://madcamp3-54b25.firebaseio.com",
+    "project_id": "madcamp3-54b25",
+    "storage_bucket": "madcamp3-54b25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716993694434:android:729b84bed2fc433a",
+        "android_client_info": {
+          "package_name": "com.example.q.swipe_tab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "716993694434-nhhj8lvtf6ja6uvuopj3hgvqc7nhda0t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.q.swipe_tab",
+            "certificate_hash": "611cd4d02a063eedb2391167e8e361aaf1114dbf"
+          }
+        },
+        {
+          "client_id": "716993694434-t0sb8c5fmg9gbbuq57t97tdajpsf8ivf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwdlCoPTUso5EChpOHf3qFVIWtQxqmnA0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "716993694434-t0sb8c5fmg9gbbuq57t97tdajpsf8ivf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

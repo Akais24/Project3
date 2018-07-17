@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.q.swipe_tab.AddEvent.AddActivity;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<Event> send_list, receive_list;
     Statistic_Adapter send_adapter, receive_adapter;
 
+    MyFirebaseInstanceIDService mService;
+
     ProgressDialog mProgressDialog;
     String server_url = "http://52.231.153.77:8080/";
     Gson gson = new Gson();
@@ -66,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
 
         send_more = findViewById(R.id.send_more_info);
         receive_more = findViewById(R.id.receive_more_info);
@@ -143,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         send_adapter = new Statistic_Adapter(getApplicationContext(), send_list);
                         send_rv.setAdapter(send_adapter);
                         send_total.setText(String.valueOf(total_send_amount) + "원");
-                        if(count[0] == 2){
+                        if(count[0] == 1){
                             mProgressDialog.hide();
                         }
                     }

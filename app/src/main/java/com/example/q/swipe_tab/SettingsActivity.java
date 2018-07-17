@@ -21,7 +21,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     EditText change_uinfo_name;
     EditText change_uinfo_nickname;
     EditText change_uinfo_account_info;
-    Button submit_uinfo, backtomain;
+    Button submit_uinfo, backtomain, testbutton;
     String name, nickname, account_info, searchurl, uid;
     Gson gson = new Gson();
     SharedPreferences info;
@@ -40,8 +40,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         change_uinfo_account_info = findViewById(R.id.change_uinfo_account_info);
         submit_uinfo = findViewById(R.id.submit_uinfo);
 
+        testbutton = findViewById(R.id.button);
         change_uinfo_name.setText(name);
 
+        testbutton.setOnClickListener(this);
         backtomain = findViewById(R.id.backto_main);
         backtomain.setOnClickListener(this);
         change_uinfo_nickname.setText(nickname);
@@ -56,6 +58,33 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         public void onClick(View v) {
             JsonObject json = new JsonObject();
             switch(v.getId()){
+                case R.id.button:
+                    String test = "TEST";
+                    Log.d("8888", "Hellofromtheotherside");
+                    json.addProperty("request", test );
+                    Ion.with(getApplicationContext())
+                            .load("POST", "http://52.231.153.77:8080/push")
+                            .setJsonObjectBody(json)
+                            .asJsonObject()
+                            .setCallback(new FutureCallback<JsonObject>() {
+                                @Override
+                                public void onCompleted(Exception e, JsonObject result) {
+                                    simple_response new2 = gson.fromJson(result, simple_response.class);
+                                    if (!new2.result.equals("Success")) {
+                                        Toast.makeText(getApplicationContext(), "회원 정보 변경에 실패하였습니다inbutton.", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    } else {
+                                        SharedPreferences.Editor editor = info.edit();
+                                        editor.putString("acount_info", account_info);
+                                        editor.putString("name", name);
+                                        editor.putString("nickname", nickname);
+                                        editor.commit();
+                                        Log.d("44444", "회원 정보 변경에 성공하였습니다inbutton.");
+                                        finish();
+                                    }
+                                }
+                            });
+                    return;
                 case R.id.backto_main:
                     finish();
                 case R.id.submit_uinfo:

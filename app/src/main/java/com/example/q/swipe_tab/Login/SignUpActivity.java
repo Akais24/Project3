@@ -61,6 +61,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 json.addProperty("nickname", nickname);
                 json.addProperty("account_info", account);
 
+
+                //add token to customer info.
+                final SharedPreferences ForToken = getSharedPreferences("forToken", MODE_PRIVATE);
+                String token;
+                token =  " FAILED GETTING ANY TOKEN";
+                Log.d("tokentokentoken", token);
+                ForToken.getString("token", token);
+
+                json.addProperty("token", token);
+
+
                 Ion.with(getApplicationContext())
                         .load("POST", "http://52.231.153.77:8080/make_new_user")
                         .setJsonObjectBody(json)
