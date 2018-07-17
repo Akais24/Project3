@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         send_adapter = new Statistic_Adapter(getApplicationContext(), send_list);
                         send_rv.setAdapter(send_adapter);
                         send_total.setText(String.valueOf(total_send_amount) + "원");
-                        if(count[0] == 1){
+                        if(count[0] == 2){
                             mProgressDialog.hide();
                         }
                     }
