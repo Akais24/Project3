@@ -6,6 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".Random.Random_Camera_Activity">
 
+    <RelativeLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/add_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/sy_pink">
+        </android.support.v7.widget.Toolbar>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="사진 랜덤"
+            android:textSize="22dp"
+            android:textColor="@color/white"/>
+    </RelativeLayout>
+
     <Button
         android:id="@+id/recog_btn"
         android:layout_width="match_parent"
@@ -24,6 +46,7 @@
         android:id="@+id/img_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/explanation"/>
+        android:layout_above="@id/explanation"
+        android:layout_below="@id/toolbar_layout"/>
 
 </RelativeLayout>
