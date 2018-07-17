@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -59,6 +61,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             JsonObject json = new JsonObject();
             switch(v.getId()){
                 case R.id.button:
+                    String isthistoken = FirebaseInstanceId.getInstance().getToken();
+                    Log.d("mytokeninclick", isthistoken);
                     String test = "TEST";
                     Log.d("8888", "Hellofromtheotherside");
                     json.addProperty("request", test );

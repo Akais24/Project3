@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.q.swipe_tab.MainActivity;
 import com.example.q.swipe_tab.R;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -63,13 +64,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
                 //add token to customer info.
-                final SharedPreferences ForToken = getSharedPreferences("forToken", MODE_PRIVATE);
-                String token;
-                token =  " FAILED GETTING ANY TOKEN";
-                Log.d("tokentokentoken", token);
-                ForToken.getString("token", token);
+                String isthistoken = FirebaseInstanceId.getInstance().getToken();
+                Log.d("isthistoken", isthistoken);
+                final SharedPreferences ForToken = getSharedPreferences("local", MODE_PRIVATE);
+                String token =  " FAILED GETTING ANY TOKEN";
+                String a = ForToken.getString("token", token);
 
-                json.addProperty("token", token);
+                Log.d("tokentokentoken", a);
+
+                json.addProperty("token",a);
 
 
                 Ion.with(getApplicationContext())

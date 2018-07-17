@@ -47,6 +47,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
                     Toast.makeText(getApplicationContext(), remoteMessage.getNotification().getBody(), Toast.LENGTH_LONG).show();
                 }
             });
+
             Log.d(TAG, "Messagefirebase Notification Body: " + remoteMessage.getNotification().getBody());
         }
     }
