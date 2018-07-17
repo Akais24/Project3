@@ -65,7 +65,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     Log.d("mytokeninclick", isthistoken);
                     String test = "TEST";
                     Log.d("8888", "Hellofromtheotherside");
-                    json.addProperty("request", test );
+                    json.addProperty("unique_id", "812747582");
+                    json.addProperty("ID", 14);
                     Ion.with(getApplicationContext())
                             .load("POST", "http://52.231.153.77:8080/push")
                             .setJsonObjectBody(json)
