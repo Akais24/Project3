@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="4dp">
+
+    <TextView
+        android:id="@+id/name_explan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginHorizontal="8dp"
+
+        android:gravity="center"
+        android:text="No."
+        android:textSize="20dp"
+        android:textColor="@color/sy_brown"/>
+    <EditText
+        android:id="@+id/name_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/name_explan"
+
+        android:gravity="center"
+        android:text="Dummy"
+        android:textSize="16dp"
+        android:textColor="@color/sy_brown"/>
+</RelativeLayout>

@@ -246,6 +246,38 @@
         />
 
     <LinearLayout
+        android:id="@+id/fab3_ex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="184dp"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="@dimen/fab_text_width"
+            android:layout_height="wrap_content"
+            android:text="사진 랜덤"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/fab_text_size"
+            android:gravity="right"
+            android:layout_gravity="center"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/add_icon"
+            app:backgroundTint="@color/sy_softpink"
+            app:elevation="6dp"
+            android:layout_marginLeft="@dimen/fab_margin_left"
+            android:layout_marginRight="@dimen/fab_margin_right"
+            android:layout_marginVertical="16dp"
+            app:pressedTranslationZ="12dp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/fab2_ex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -257,7 +289,7 @@
         <TextView
             android:layout_width="@dimen/fab_text_width"
             android:layout_height="wrap_content"
-            android:text="랜덤 만들기"
+            android:text="그냥 랜덤"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/fab_text_size"
             android:gravity="right"

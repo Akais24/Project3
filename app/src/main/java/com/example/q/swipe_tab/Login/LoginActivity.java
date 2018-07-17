@@ -1,12 +1,19 @@
 package com.example.q.swipe_tab.Login;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.util.Log;
 
@@ -22,6 +29,9 @@ import java.security.NoSuchAlgorithmException;
 import static com.kakao.util.helper.Utility.getPackageInfo;
 
 public class LoginActivity  extends Activity {
+    private static final int MY_PERMISSION = 1111;
+
+    private String[] permissions;
 
     private SessionCallback callback;      //콜백 선언
 
@@ -29,6 +39,12 @@ public class LoginActivity  extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        permissions = new String[3];
+        permissions[0] = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+        permissions[1] =  Manifest.permission.CAMERA;
+        permissions[2] = Manifest.permission.INTERNET;
+        checkPermission();
 
         callback = new SessionCallback();                  // 이 두개의 함수 중요함
         Session.getCurrentSession().addCallback(callback);
@@ -90,6 +106,51 @@ public class LoginActivity  extends Activity {
         Log.d("44444", "Success");
         startActivity(intent);
         finish();
+    }
+
+
+    private void checkPermission() {
+        if (checkselfpermission(permissions)) {
+            // 처음 호출시엔 if()안의 부분은 false로 리턴 됨 -> else{..}의 요청으로 넘어감
+            if (checkfirstpermission(permissions)) {
+                new AlertDialog.Builder(this)
+                        .setTitle("알림")
+                        .setMessage("일부 권한이 거부되었습니다. 사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.")
+                        .setNeutralButton("설정", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                intent.setData(Uri.parse("package:" + getPackageName()));
+                                startActivity(intent);
+                            }
+                        })
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //finish();
+                            }
+                        })
+                        .setCancelable(false).create().show();
+            } else {
+                ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION);
+            }
+        }
+    }
+
+    private boolean checkselfpermission(String[] permissions){
+        for(int i=0; i<permissions.length; i++){
+            if (ContextCompat.checkSelfPermission(this, permissions[i]) != PackageManager.PERMISSION_GRANTED)
+                return true;
+        }
+        return false;
+    }
+
+    private boolean checkfirstpermission(String[] permissions){
+        for(int i=0; i<permissions.length; i++){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]))
+                return true;
+        }
+        return false;
     }
 
 }

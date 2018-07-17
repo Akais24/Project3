@@ -51,9 +51,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     int mYear, mMonth, mDay;
     String picked_date, raw_content, unique_id;
 
-    LinearLayout limit;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
