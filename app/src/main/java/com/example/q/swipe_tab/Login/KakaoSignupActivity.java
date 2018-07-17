@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.q.swipe_tab.MainActivity;
 import com.example.q.swipe_tab.R;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kakao.auth.ErrorCode;
@@ -97,7 +98,25 @@ public class KakaoSignupActivity extends AppCompatActivity {
                                     editor.putString("acount_info", check.account_info);
                                     editor.putString("name", check.name);
                                     editor.putString("nickname", check.nickname);
+                                    String isthistoken = FirebaseInstanceId.getInstance().getToken();
+                                    editor.putString("token", isthistoken);
                                     editor.commit();
+
+                                    JsonObject fortoken = new JsonObject();
+                                    SharedPreferences inform = getSharedPreferences("local", MODE_PRIVATE);
+                                    String uid = inform.getString("unique_id", null);
+                                    fortoken.addProperty("unique_id", uid);
+                                    fortoken.addProperty("token", isthistoken);
+                                    Ion.with(getApplicationContext())
+                                            .load("Post", "http://52.231.153.77:8080/changeToken")
+                                            .setJsonObjectBody(fortoken)
+                                            .asJsonObject()
+                                            .setCallback(new FutureCallback<JsonObject>() {
+                                                @Override
+                                                public void onCompleted(Exception e, JsonObject result) {
+
+                                                }
+                                            });
                                     redirectMainActivity();
                                 }
                                 if(check.result.equals("Failure")){
