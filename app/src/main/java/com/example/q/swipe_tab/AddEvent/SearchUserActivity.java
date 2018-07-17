@@ -2,6 +2,7 @@ package com.example.q.swipe_tab.AddEvent;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +33,7 @@ public class SearchUserActivity extends AppCompatActivity implements View.OnClic
 
     Search_Adapter mAdapter;
     ArrayList<User> debters = new ArrayList<>();
+    String unique_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,9 @@ public class SearchUserActivity extends AppCompatActivity implements View.OnClic
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         search_rv.setLayoutManager(llm);
+
+        SharedPreferences test = getSharedPreferences("local", MODE_PRIVATE);
+        unique_id = test.getString("unique_id", null);
     }
 
     @Override
@@ -73,17 +78,17 @@ public class SearchUserActivity extends AppCompatActivity implements View.OnClic
                                 debters = new ArrayList<>();
                                 Log.d("44444", String.valueOf(result));
                                 if(result == null){
-                                Toast.makeText(getApplicationContext(), getString(R.string.server_die), Toast.LENGTH_SHORT).show();
-                                return;
-                            }
+                                    Toast.makeText(getApplicationContext(), getString(R.string.server_die), Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
                                 for(int i=0; i<result.size(); i++){
-                                search_result newone = gson.fromJson(result.get(i), search_result.class);
-                                saved.add(newone);
-                                User newuser = new User(newone.unique_id, newone.name, newone.nickname);
-                                debters.add(newuser);
-                            }
+                                    search_result newone = gson.fromJson(result.get(i), search_result.class);
+                                    saved.add(newone);
+                                    User newuser = new User(newone.unique_id, newone.name, newone.nickname);
+                                    if(!newone.unique_id.equals(unique_id)) debters.add(newuser);
+                                }
                                 if(debters.size() == 0) debters.add(new User("","해당 유저 없음", ""));
-                            mAdapter = new Search_Adapter(SearchUserActivity.this, debters, SearchUserActivity.this);
+                                mAdapter = new Search_Adapter(SearchUserActivity.this, debters, SearchUserActivity.this);
                                 search_rv.setAdapter(mAdapter);
                         }
                         });

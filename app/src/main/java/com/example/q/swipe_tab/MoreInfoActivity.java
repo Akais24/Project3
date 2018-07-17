@@ -1,5 +1,6 @@
 package com.example.q.swipe_tab;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -41,10 +42,14 @@ public class MoreInfoActivity extends AppCompatActivity implements SwipeRefreshL
     String server_url = "http://52.231.153.77:8080/";
     Gson gson = new Gson();
 
+    Activity myself;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_info);
+
+        myself = MoreInfoActivity.this;
 
         Intent intent = getIntent();
         category = intent.getIntExtra("category", SEND);
@@ -61,7 +66,7 @@ public class MoreInfoActivity extends AppCompatActivity implements SwipeRefreshL
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         target_rv.setLayoutManager(llm);
 
-        target_adapter = new MoreInfo_Adapter(getApplicationContext(), targets, category);
+        target_adapter = new MoreInfo_Adapter(getApplicationContext(), targets, category, myself);
         target_rv.setAdapter(target_adapter);
         target_rv.addItemDecoration(new SimpleDividerItemDecoration(getApplicationContext()));
 
@@ -103,7 +108,7 @@ public class MoreInfoActivity extends AppCompatActivity implements SwipeRefreshL
                             MainActivity.Event newevent = gson.fromJson(result.get(i), MainActivity.Event.class);
                             targets.add(newevent);
                         }
-                        target_adapter = new MoreInfo_Adapter(getApplicationContext(), targets, category);
+                        target_adapter = new MoreInfo_Adapter(getApplicationContext(), targets, category, myself);
                         target_rv.setAdapter(target_adapter);
                         mProgressDialog.hide();
                     }

@@ -1,14 +1,25 @@
 package com.example.q.swipe_tab;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 
@@ -16,13 +27,16 @@ public class MoreInfo_Adapter extends RecyclerView.Adapter<MoreInfo_Adapter.View
     Context mContext;
     ArrayList<MainActivity.Event> events;
     int category;
+    Activity origin;
 
     private LayoutInflater mInflater;
+    Gson gson = new Gson();
 
-    public MoreInfo_Adapter(Context context, ArrayList<MainActivity.Event> target, int c){
+    public MoreInfo_Adapter(Context context, ArrayList<MainActivity.Event> target, int c, Activity from){
         mContext = context;
         events = target;
         category = c;
+        origin = from;
 
         mInflater = LayoutInflater.from(mContext);
     }
@@ -53,6 +67,45 @@ public class MoreInfo_Adapter extends RecyclerView.Adapter<MoreInfo_Adapter.View
                 detail.putExtra("category", category);
 
                 mContext.startActivity(detail);
+            }
+        });
+
+        holder.overall.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new AlertDialog.Builder(new ContextThemeWrapper(origin, R.style.myDialog))
+                        .setMessage("이 채무 관계를 청산하시겠습니까?")
+                        .setNeutralButton("네", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                JsonObject id_object = new JsonObject();
+                                id_object.addProperty("ID", target.ID);
+                                Ion.with(mContext)
+                                        .load("Post", "http://52.231.153.77:8080/" + "")
+                                        .setJsonObjectBody(id_object)
+                                        .asJsonObject()
+                                        .setCallback(new FutureCallback<JsonObject>() {
+                                            @Override
+                                            public void onCompleted(Exception e, JsonObject result) {
+                                                simple_response newone = gson.fromJson(result, simple_response.class);
+                                                if(!newone.result.equals("Success")){
+                                                    Toast.makeText(mContext, "청산에 실패하였습니다", Toast.LENGTH_SHORT).show();
+                                                }else{
+                                                    Toast.makeText(mContext, "성공적으로 청산했습니다", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                            }
+                        })
+                        .setPositiveButton("아니요", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //finish();
+                            }
+                        })
+                        .setCancelable(true).create().show();
+
+                return false;
             }
         });
     }

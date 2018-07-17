@@ -178,7 +178,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             case SEARCH_CODE:
                 if(resultCode == Activity.RESULT_OK){
                     User newuser = (User) data.getSerializableExtra("select");
-                    if(newuser.unique_id == unique_id){
+                    if(newuser.unique_id.equals(unique_id)){
                         Toast.makeText(getApplicationContext(), "자기 자신을 추가할 수 없습니다", Toast.LENGTH_SHORT).show();
                         return;
                     }
