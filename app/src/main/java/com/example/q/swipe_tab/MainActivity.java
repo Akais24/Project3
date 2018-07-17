@@ -2,18 +2,26 @@ package com.example.q.swipe_tab;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -38,7 +46,9 @@ import com.example.q.swipe_tab.Random.Random_Normal_Activity;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -177,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         send_adapter = new Statistic_Adapter(getApplicationContext(), send_list);
                         send_rv.setAdapter(send_adapter);
                         send_total.setText(String.valueOf(total_send_amount) + "원");
-                        if(count[0] == 1){
+                        if(count[0] == 2){
                             mProgressDialog.hide();
                         }
                     }
@@ -237,6 +247,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(more_info);
                 break;
             case R.id.fab:
+                String body = "{\"name\" : \"재영\", \"nickname\" : \"altair\", \"info\": \"마루\", \"price\" : 8000}";
+                JsonElement jsonElement = new JsonParser().parse(body);
+                JsonObject target = jsonElement.getAsJsonObject();
+
+                String name = target.get("name").toString().split("\"")[1];
+                String nickname = target.get("nickname").toString().split("\"")[1];
+                String info = target.get("info").toString().split("\"")[1];
+                String price = target.get("price").toString();
+
+                Log.d("5555", name);
+                Log.d("5555", nickname);
+                Log.d("5555", info);
+                Log.d("5555", price);
+
+                more_info = new Intent(MainActivity.this, MoreInfoActivity.class);
+                args = new Bundle();
+                args.putSerializable("list", (Serializable) send_list);
+                more_info.putExtra("BUNDLE", args);
+                more_info.putExtra("category", SEND);
+
+                Context mContext =getApplicationContext();
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext.getApplicationContext(), "notify_001");
+                PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, more_info, 0);
+
+                String title = String.format("%s(%s) 님께서 입금을 요청했습니다", name, nickname);
+                String bigcontent = String.format("%s 건에 대해서 %s원을 요청했습니다", info, price);
+
+                NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
+                bigText.bigText(bigcontent);
+                bigText.setBigContentTitle(title);
+                bigText.setSummaryText("독촉메시지");
+
+                mBuilder.setContentIntent(pendingIntent);
+                mBuilder.setSmallIcon(R.drawable.cookie);
+                mBuilder.setContentTitle(title);
+                mBuilder.setContentText(bigcontent);
+                mBuilder.setPriority(Notification.PRIORITY_MAX);
+                mBuilder.setStyle(bigText);
+
+                NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    NotificationChannel channel = new NotificationChannel("notify_001", "Channel human readable title",
+                            NotificationManager.IMPORTANCE_DEFAULT);
+                    mNotificationManager.createNotificationChannel(channel);
+                }
+                mNotificationManager.notify(0, mBuilder.build());
+
             case R.id.cover:
                 anim();
                 break;
