@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -16,7 +17,9 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.ContextThemeWrapper;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -44,9 +47,9 @@ public class Random_Camera_Activity extends AppCompatActivity implements View.On
 
     private final String apiEndpoint = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0";
     private final String subscriptionKey = "753900f20b72468da5188a95f81b64ac";
-    private final FaceServiceClient faceServiceClient =
-            new FaceServiceRestClient(apiEndpoint, subscriptionKey);
+    private final FaceServiceClient faceServiceClient = new FaceServiceRestClient(apiEndpoint, subscriptionKey);
 
+    Toolbar mytoolbar;
     ImageView img;
     Button recog_btn;
 
@@ -69,6 +72,12 @@ public class Random_Camera_Activity extends AppCompatActivity implements View.On
         img = findViewById(R.id.img_view);
         recog_btn = findViewById(R.id.recog_btn);
         File imgfile = new File(filepath);
+        mytoolbar = findViewById(R.id.add_toolbar);
+        setSupportActionBar(mytoolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mytoolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
 
         if(imgfile.exists()){
             Bitmap bm = BitmapFactory.decodeFile(imgfile.getAbsolutePath());
@@ -279,4 +288,15 @@ public class Random_Camera_Activity extends AppCompatActivity implements View.On
             return null;
         }
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }
