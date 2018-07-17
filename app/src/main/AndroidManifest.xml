@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.q.swipe_tab">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -24,6 +26,20 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="face" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.q.swipe_tab"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <meta-data android:name="firebase_messaging_auto_init_enabled"
             android:value="false" />
         <activity android:name=".Login.KakaoSignupActivity" />
@@ -47,6 +63,15 @@
             android:name=".MoreInfo_DetailActivity"
             android:theme="@style/myDialog" />
         <activity android:name=".SettingsActivity" />
+        <activity
+            android:name=".AddEvent.ArithmeticActivity"
+            android:theme="@style/myDialog" />
+        <activity
+            android:name=".AddEvent.Arithmetic_plus_Activity"
+            android:theme="@style/myDialog" />
+        <activity android:name=".Random.Random_Camera_Activity" />
+        <activity android:name=".Random.Random_Normal_Activity"
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".AddEvent.ArithmeticActivity"
             android:theme="@style/myDialog"></activity>
         <activity android:name=".AddEvent.Arithmetic_plus_Activity"

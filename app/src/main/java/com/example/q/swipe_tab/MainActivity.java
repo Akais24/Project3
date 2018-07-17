@@ -1,44 +1,57 @@
 package com.example.q.swipe_tab;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.q.swipe_tab.AddEvent.AddActivity;
-import com.google.firebase.messaging.FirebaseMessaging;
+import com.example.q.swipe_tab.Random.Random_Camera_Activity;
+import com.example.q.swipe_tab.Random.Random_Normal_Activity;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Set;
-
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
-
+    private static final int REQUEST_TAKE_PHOTO = 3000;
     final int SEND = 0;
     final int RECEIVE = 1;
 
@@ -60,10 +73,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Gson gson = new Gson();
 
     private Animation fab_open, fab_close;
-    private FloatingActionButton fab, fab_x, fab1, fab2;
-    private LinearLayout fab1_ex, fab2_ex;
+    private FloatingActionButton fab, fab_x, fab1, fab2, fab3;
+    private LinearLayout fab1_ex, fab2_ex, fab3_ex;
     TextView cover;
     private Boolean isFabOpen = false;
+
+    private String[] permissions;
+
+    File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures");
+    String mCurrentPhotoPath = null;
+    Uri imageUri;
+
+    SharedPreferences test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         receive_more.setOnClickListener(this);
         settings.setOnClickListener(this);
 
-        final SharedPreferences test = getSharedPreferences("local", MODE_PRIVATE);
+        test = getSharedPreferences("local", MODE_PRIVATE);
         name = test.getString("name", null);
         nickname = test.getString("nickname", null);
         unique_id = test.getString("unique_id", null);
@@ -112,13 +133,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab1_ex = findViewById(R.id.fab1_ex);
         fab2 = findViewById(R.id.fab2);
         fab2_ex = findViewById(R.id.fab2_ex);
+        fab3 = findViewById(R.id.fab3);
+        fab3_ex = findViewById(R.id.fab3_ex);
         cover = findViewById(R.id.cover);
 
         fab.setOnClickListener(this);
         cover.setOnClickListener(this);
         fab1.setOnClickListener(this);
         fab2.setOnClickListener(this);
+        fab3.setOnClickListener(this);
 
+        permissions = new String[3];
+        permissions[0] = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+        permissions[1] =  Manifest.permission.CAMERA;
+        permissions[2] = Manifest.permission.INTERNET;
     }
 
     public void update_main(){
@@ -187,11 +215,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent settings = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(settings);
                 break;
-//            case R.id.fab_add:
-//                //do add activity
-//                Intent add = new Intent(MainActivity.this, AddActivity.class);
-//                startActivity(add);
-//                break;
             case R.id.send_more_info:
                 more_info = new Intent(MainActivity.this, MoreInfoActivity.class);
 
@@ -226,8 +249,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.fab2:
                 anim();
+                Intent normal_random = new Intent(MainActivity.this, Random_Normal_Activity.class);
+                startActivity(normal_random);
                 break;
+            case R.id.fab3:
+                boolean ask = test.getBoolean("ask_camera", false);
+                if(!ask) {
+                    AlertDialog askdialog = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog))
+                            .setTitle("사진 인식 랜덤~")
+                            .setMessage("촬영한 사진으로 얼굴인식을 하여 붉은색 사각형으로 인식된 사람이 당첨되는 시스템입니다" +
+                                    "\n\n얼굴 인식이 되지 않으면 걸리지 않으니 참고하세요~").setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    anim();
+                                    captureCamera();
+                                }
+                            })
+                            .setNeutralButton("다시보지 않기", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    SharedPreferences.Editor edit = test.edit();
+                                    edit.putBoolean("ask_camera", true);
+                                    edit.commit();
 
+                                    anim();
+                                    captureCamera();
+                                }
+                            }).setCancelable(true).show();
+
+                    TextView textView = (TextView) askdialog.findViewById(android.R.id.message);
+                    textView.setTextSize(16);
+//                    askdialog.setView(R.layout.padding_alertdialog);
+
+                }else{
+                    anim();
+                    captureCamera();
+                }
+                break;
         }
     }
 
@@ -274,9 +332,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fab.setVisibility(View.VISIBLE);
             fab_x.setVisibility(View.INVISIBLE);
             fab1_ex.startAnimation(fab_close);
-            fab2_ex.startAnimation(fab_close);;
+            fab2_ex.startAnimation(fab_close);
+            fab3_ex.startAnimation(fab_close);;
             fab1.setClickable(false);
             fab2.setClickable(false);
+            fab3.setClickable(false);
             cover.setVisibility(View.INVISIBLE);
             isFabOpen = false;
         } else {
@@ -284,10 +344,89 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fab_x.setVisibility(View.VISIBLE);
             fab1_ex.startAnimation(fab_open);
             fab2_ex.startAnimation(fab_open);
+            fab3_ex.startAnimation(fab_open);
             fab1.setClickable(true);
             fab2.setClickable(true);
+            fab3.setClickable(true);
             cover.setVisibility(View.VISIBLE);
             isFabOpen = true;
+        }
+    }
+
+    private boolean checkselfpermission(String[] permissions){
+        for(int i=0; i<permissions.length; i++){
+            if (ContextCompat.checkSelfPermission(this, permissions[i]) != PackageManager.PERMISSION_GRANTED)
+                return true;
+        }
+        return false;
+    }
+
+
+    private void captureCamera() {
+        if(checkselfpermission(permissions)) {
+            Toast.makeText(getApplicationContext(), "카메라와 파일 접근 권한이 없어 실행할 수 없습니다. 앱을 재실행하여 권한을 허가해주시길 바랍니다", Toast.LENGTH_LONG).show();
+        }else {
+            String state = Environment.getExternalStorageState();
+            if (Environment.MEDIA_MOUNTED.equals(state)) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    File photoFile = null;
+                    try {
+                        photoFile = createImageFile();
+                    } catch (IOException ex) {
+                        Log.e("captureCamera Error", ex.toString());
+                    }
+                    if (photoFile != null) {
+                        Uri providerURI = FileProvider.getUriForFile(getApplicationContext(), getPackageName(), photoFile);
+                        imageUri = providerURI;
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, providerURI);
+                        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                    }
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "저장공간이 접근 불가능한 기기입니다", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + ".jpg";
+        File imageFile;
+
+        if (!storageDir.exists()) {
+            Log.i("mCurrentPhotoPath1", storageDir.toString());
+            storageDir.mkdirs();
+        }
+
+        imageFile = new File(storageDir, imageFileName);
+        mCurrentPhotoPath = imageFile.getAbsolutePath();
+        return imageFile;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("REQUEST CODE : ", String.valueOf(requestCode));
+        switch (requestCode) {
+            case REQUEST_TAKE_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    try {
+                        Log.i("REQUEST_TAKE_PHOTO", "OK");
+
+                        //do my work
+                        Intent random = new Intent(MainActivity.this, Random_Camera_Activity.class);
+                        random.putExtra("filepath", mCurrentPhotoPath);
+                        random.putExtra("imageuri", imageUri.toString());
+
+                        startActivity(random);
+
+                        Log.d("CheckURI", String.valueOf(imageUri));
+                    } catch (Exception e) {
+                        Log.e("REQUEST_TAKE_PHOTO", e.toString());
+                    }
+                }
+                break;
         }
     }
 }
