@@ -206,6 +206,7 @@ public class CalculationActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("444444", "calcul_onactivityresult");
         switch (requestCode){
             case ARITH:
                 if(data == null) return;

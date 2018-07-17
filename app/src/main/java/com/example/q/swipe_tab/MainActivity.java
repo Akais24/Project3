@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     String name, nickname, unique_id;
 
-    private FloatingActionButton fab_add;
     ImageView settings;
     ImageView send_more, receive_more;
     RecyclerView send_rv, receive_rv;

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -14,6 +15,8 @@ import android.widget.EditText;
 import com.example.q.swipe_tab.R;
 
 public class ArithmeticActivity extends AppCompatActivity implements View.OnClickListener {
+    final int ARITH_PLUS = 2000;
+
     int index;
     String origin;
 
@@ -56,9 +59,9 @@ public class ArithmeticActivity extends AppCompatActivity implements View.OnClic
         btn4 = findViewById(R.id.btn_4);
         btn5 = findViewById(R.id.btn_5);
         btn6 = findViewById(R.id.btn_6);
-        btn7 = findViewById(R.id.btn_remove);
-        btn8 = findViewById(R.id.btn_reset);
-        btn9 = findViewById(R.id.btn_restt);
+        btn7 = findViewById(R.id.btn_7);
+        btn8 = findViewById(R.id.btn_8);
+        btn9 = findViewById(R.id.btn_9);
         btn0 = findViewById(R.id.btn_0);
         btn00 = findViewById(R.id.btn_00);
         btn000 = findViewById(R.id.btn_000);
@@ -113,7 +116,7 @@ public class ArithmeticActivity extends AppCompatActivity implements View.OnClic
             case R.id.btn_8:
                 insertText(result_view, "8");
                 break;
-            case R.id.btn_restt:
+            case R.id.btn_9:
                 insertText(result_view, "9");
                 break;
             case R.id.btn_0:
@@ -137,7 +140,9 @@ public class ArithmeticActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.btn_arith:
                 Intent arith_real = new Intent(ArithmeticActivity.this, Arithmetic_plus_Activity.class);
-
+                arith_real.putExtra("index", index);
+                arith_real.putExtra("origin", result_view.getText().toString());
+                startActivityForResult(arith_real, ARITH_PLUS);
                 break;
             case R.id.btn_enter:
                 Intent returnintent = new Intent();
@@ -159,8 +164,23 @@ public class ArithmeticActivity extends AppCompatActivity implements View.OnClic
         view.getText().replace(Math.min(s, e), Math.max(s, e), text, 0, text.length());
     }
 
-//    @Override
-//    public void onBackPressed(){
-//        finish();
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("444444", "arith_onactivityresult");
+        switch (requestCode) {
+            case ARITH_PLUS:
+                Log.d("444444", "catch ARITH_PLUS");
+                if(resultCode == Activity.RESULT_OK){
+                    int index = data.getIntExtra("index", 0);
+                    String value = data.getStringExtra("value");
+                    Log.d("444444", "catch ARITH_PLUS : " + value);
+
+                    Intent returnintent = new Intent();
+                    returnintent.putExtra("index", index);
+                    returnintent.putExtra("value", value);
+                    setResult(Activity.RESULT_OK, returnintent);
+                    finish();
+                }
+        }
+    }
 }

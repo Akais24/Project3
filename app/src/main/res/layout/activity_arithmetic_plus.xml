@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
-    android:layout_height="400dp"
+    android:layout_height="480dp"
     android:background="@color/sy_softpink">
 
     <TextView
@@ -79,17 +79,12 @@
 
             <Button
                 android:id="@+id/btn_rest"
-                android:layout_width="56dp"
+                android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginEnd="4dp"
-
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="4dp"
+                android:layout_margin="4dp"
                 android:layout_toRightOf="@id/btn_reset"
                 android:background="@drawable/border_with_transparent"
+
                 android:gravity="center"
                 android:text="%"
                 android:textColor="@color/sy_brown"
@@ -101,7 +96,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_margin="4dp"
-                android:layout_toRightOf="@id/btn_restt"
+                android:layout_toRightOf="@id/btn_rest"
                 android:background="@drawable/border_with_transparent"
 
                 android:gravity="center"
@@ -159,19 +154,19 @@
             android:textColor="@color/sy_brown"
             android:textStyle="bold"/>
 
-            <Button
-                android:id="@+id/btn_multi"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_margin="4dp"
-                android:layout_toRightOf="@id/btn_restt"
-                android:background="@drawable/border_with_transparent"
+        <Button
+            android:id="@+id/btn_multi"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="4dp"
+            android:layout_toRightOf="@id/btn_9"
+            android:background="@drawable/border_with_transparent"
 
-                android:gravity="center"
-                android:text="X"
-                android:textColor="@color/sy_brown"
-                android:textSize="24dp"
-                android:textStyle="bold" />
+            android:gravity="center"
+            android:text="*"
+            android:textColor="@color/sy_brown"
+            android:textSize="24dp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
         <RelativeLayout
@@ -357,7 +352,7 @@
                 android:background="@drawable/border_with_transparent"
 
                 android:gravity="center"
-                android:text="입력"
+                android:text="계산"
                 android:textColor="@color/sy_brown"
                 android:textSize="24dp"
                 android:textStyle="bold" />

@@ -62,7 +62,7 @@
             android:id="@+id/btn_8"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_toRightOf="@id/btn_remove"
+            android:layout_toRightOf="@id/btn_7"
             android:background="@drawable/border_with_transparent"
             android:layout_margin="4dp"
 
@@ -73,10 +73,10 @@
             android:textStyle="bold"/>
 
         <Button
-            android:id="@+id/btn_restt"
+            android:id="@+id/btn_9"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_toRightOf="@id/btn_reset"
+            android:layout_toRightOf="@id/btn_8"
             android:background="@drawable/border_with_transparent"
             android:layout_margin="4dp"
 
@@ -90,11 +90,11 @@
             android:id="@+id/btn_remove"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_toRightOf="@id/btn_restt"
+            android:layout_toRightOf="@id/btn_9"
             android:background="@drawable/border_with_transparent"
             android:layout_margin="4dp"
 
-            android:text="x"
+            android:text="del"
             android:gravity="center"
             android:textSize="24dp"
             android:textColor="@color/sy_brown"

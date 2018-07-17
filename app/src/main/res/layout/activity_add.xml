@@ -185,8 +185,7 @@
                 android:id="@+id/add_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="4dp"
-                android:layout_marginVertical="4dp"
+                android:paddingVertical="6dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:clickable="true"
@@ -194,7 +193,7 @@
 
                 android:text="추가하기"
                 android:textColor="@color/sy_brown"
-                android:textSize="16dp"
+                android:textSize="18dp"
                 android:gravity="center"/>
 
             <android.support.v7.widget.RecyclerView
