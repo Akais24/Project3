@@ -67,7 +67,6 @@
         <activity
             android:name=".AddEvent.Arithmetic_plus_Activity"
             android:theme="@style/myDialog" />
-        <activity android:name=".App" />
         <activity android:name=".Random.Random_Camera_Activity" />
         <activity android:name=".Random.Random_Normal_Activity"
             android:windowSoftInputMode="adjustPan"></activity>

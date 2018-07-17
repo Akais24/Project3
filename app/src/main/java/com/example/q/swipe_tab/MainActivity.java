@@ -3,6 +3,7 @@ package com.example.q.swipe_tab;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -16,11 +17,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -79,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String mCurrentPhotoPath = null;
     Uri imageUri;
 
+    SharedPreferences test;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         receive_more.setOnClickListener(this);
         settings.setOnClickListener(this);
 
-        final SharedPreferences test = getSharedPreferences("local", MODE_PRIVATE);
+        test = getSharedPreferences("local", MODE_PRIVATE);
         name = test.getString("name", null);
         nickname = test.getString("nickname", null);
         unique_id = test.getString("unique_id", null);
@@ -167,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         send_adapter = new Statistic_Adapter(getApplicationContext(), send_list);
                         send_rv.setAdapter(send_adapter);
                         send_total.setText(String.valueOf(total_send_amount) + "원");
-                        if(count[0] == 2){
+                        if(count[0] == 1){
                             mProgressDialog.hide();
                         }
                     }
@@ -244,14 +249,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(normal_random);
                 break;
             case R.id.fab3:
-                anim();
-                if(checkselfpermission(permissions)){
-                    Toast.makeText(getApplicationContext(), "카메라와 파일 접근 권한이 없어 실행할 수 없습니다. 앱을 재실행하여 권한을 허가해주시길 바랍니다", Toast.LENGTH_LONG).show();
+                boolean ask = test.getBoolean("ask_camera", false);
+                if(!ask) {
+                    AlertDialog askdialog = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog))
+                            .setTitle("사진 인식 랜덤~")
+                            .setMessage("촬영한 사진으로 얼굴인식을 하여 붉은색 사각형으로 인식된 사람이 당첨되는 시스템입니다" +
+                                    "\n\n얼굴 인식이 되지 않으면 걸리지 않으니 참고하세요~").setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    anim();
+                                    captureCamera();
+                                }
+                            })
+                            .setNeutralButton("다시보지 않기", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    SharedPreferences.Editor edit = test.edit();
+                                    edit.putBoolean("ask_camera", true);
+                                    edit.commit();
+
+                                    anim();
+                                    captureCamera();
+                                }
+                            }).setCancelable(true).show();
+
+                    TextView textView = (TextView) askdialog.findViewById(android.R.id.message);
+                    textView.setTextSize(16);
+//                    askdialog.setView(R.layout.padding_alertdialog);
+
                 }else{
+                    anim();
                     captureCamera();
                 }
                 break;
-
         }
     }
 
@@ -329,25 +359,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void captureCamera() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException ex) {
-                    Log.e("captureCamera Error", ex.toString());
+        if(checkselfpermission(permissions)) {
+            Toast.makeText(getApplicationContext(), "카메라와 파일 접근 권한이 없어 실행할 수 없습니다. 앱을 재실행하여 권한을 허가해주시길 바랍니다", Toast.LENGTH_LONG).show();
+        }else {
+            String state = Environment.getExternalStorageState();
+            if (Environment.MEDIA_MOUNTED.equals(state)) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    File photoFile = null;
+                    try {
+                        photoFile = createImageFile();
+                    } catch (IOException ex) {
+                        Log.e("captureCamera Error", ex.toString());
+                    }
+                    if (photoFile != null) {
+                        Uri providerURI = FileProvider.getUriForFile(getApplicationContext(), getPackageName(), photoFile);
+                        imageUri = providerURI;
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, providerURI);
+                        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                    }
                 }
-                if (photoFile != null) {
-                    Uri providerURI = FileProvider.getUriForFile(getApplicationContext(), getPackageName(), photoFile);
-                    imageUri = providerURI;
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, providerURI);
-                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-                }
+            } else {
+                Toast.makeText(getApplicationContext(), "저장공간이 접근 불가능한 기기입니다", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(getApplicationContext(), "저장공간이 접근 불가능한 기기입니다", Toast.LENGTH_SHORT).show();
         }
     }
 
