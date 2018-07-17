@@ -19,6 +19,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
@@ -63,6 +65,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private static final int REQUEST_TAKE_PHOTO = 3000;
+    final int MAIN_POPUP = 4500;
     final int SEND = 0;
     final int RECEIVE = 1;
 
@@ -117,6 +120,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         receive_more.setOnClickListener(this);
         settings.setOnClickListener(this);
 
+        Intent from = getIntent();
+        boolean ispopup = from.getBooleanExtra("is_popup", false);
+
         test = getSharedPreferences("local", MODE_PRIVATE);
         name = test.getString("name", null);
         nickname = test.getString("nickname", null);
@@ -158,6 +164,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         permissions[0] = Manifest.permission.WRITE_EXTERNAL_STORAGE;
         permissions[1] =  Manifest.permission.CAMERA;
         permissions[2] = Manifest.permission.INTERNET;
+
+        if(ispopup){
+            show_dialog();
+        }
+    }
+
+    public void show_dialog(){
+        Intent from = getIntent();
+
+        String c_name = from.getStringExtra("creditor_name");
+        String c_nickname = from.getStringExtra("creditor_nickname");
+        String c_info = from.getStringExtra("creditor_info");
+        String c_price = from.getStringExtra("creditor_price");
+        String c_date = from.getStringExtra("creditor_date");
+        String c_account_info = from.getStringExtra("creditor_account_info");
+
+        Event target = new Event("0", "unique_id", c_name, c_nickname, Integer.parseInt(c_price), c_date, c_info);
+
+        Context mContext = getApplicationContext();
+        Intent detail = new Intent(mContext, MoreInfo_DetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("target", target);
+        detail.putExtras(bundle);
+        detail.putExtra("category", SEND);
+
+        NotificationManager nm =
+                (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+
+        // 등록된 notification 을 제거 한다.
+        nm.cancel(1234);
+
+
+        mContext.startActivity(detail);
+        return;
     }
 
     public void update_main(){
@@ -247,54 +287,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(more_info);
                 break;
             case R.id.fab:
-                String body = "{\"name\" : \"재영\", \"nickname\" : \"altair\", \"info\": \"마루\", \"price\" : 8000}";
-                JsonElement jsonElement = new JsonParser().parse(body);
-                JsonObject target = jsonElement.getAsJsonObject();
-
-                String name = target.get("name").toString().split("\"")[1];
-                String nickname = target.get("nickname").toString().split("\"")[1];
-                String info = target.get("info").toString().split("\"")[1];
-                String price = target.get("price").toString();
-
-                Log.d("5555", name);
-                Log.d("5555", nickname);
-                Log.d("5555", info);
-                Log.d("5555", price);
-
-                more_info = new Intent(MainActivity.this, MoreInfoActivity.class);
-                args = new Bundle();
-                args.putSerializable("list", (Serializable) send_list);
-                more_info.putExtra("BUNDLE", args);
-                more_info.putExtra("category", SEND);
-
-                Context mContext =getApplicationContext();
-                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext.getApplicationContext(), "notify_001");
-                PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, more_info, 0);
-
-                String title = String.format("%s(%s) 님께서 입금을 요청했습니다", name, nickname);
-                String bigcontent = String.format("%s 건에 대해서 %s원을 요청했습니다", info, price);
-
-                NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
-                bigText.bigText(bigcontent);
-                bigText.setBigContentTitle(title);
-                bigText.setSummaryText("독촉메시지");
-
-                mBuilder.setContentIntent(pendingIntent);
-                mBuilder.setSmallIcon(R.drawable.cookie);
-                mBuilder.setContentTitle(title);
-                mBuilder.setContentText(bigcontent);
-                mBuilder.setPriority(Notification.PRIORITY_MAX);
-                mBuilder.setStyle(bigText);
-
-                NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel channel = new NotificationChannel("notify_001", "Channel human readable title",
-                            NotificationManager.IMPORTANCE_DEFAULT);
-                    mNotificationManager.createNotificationChannel(channel);
-                }
-                mNotificationManager.notify(0, mBuilder.build());
-
             case R.id.cover:
                 anim();
                 break;
@@ -376,7 +368,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    class Event implements Serializable {
+    static class Event implements Serializable{
         String ID;
         String unique_id;
         String name;
@@ -384,6 +376,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Integer price;
         String date;
         String info;
+
+        public Event(String id, String uid, String n, String nn, Integer p, String d, String i){
+            ID = id;
+            unique_id = uid;
+            name = n;
+            nickname = nn;
+            price = p;
+            date = d;
+            info = i;
+        }
     }
 
     public void anim() {
