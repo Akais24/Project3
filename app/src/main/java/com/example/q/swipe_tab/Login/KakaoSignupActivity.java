@@ -107,6 +107,8 @@ public class KakaoSignupActivity extends AppCompatActivity {
                                     String uid = inform.getString("unique_id", null);
                                     fortoken.addProperty("unique_id", uid);
                                     fortoken.addProperty("token", isthistoken);
+                                    Log.d("4444", "send token : " + isthistoken);
+
                                     Ion.with(getApplicationContext())
                                             .load("Post", "http://52.231.153.77:8080/changeToken")
                                             .setJsonObjectBody(fortoken)
@@ -114,7 +116,7 @@ public class KakaoSignupActivity extends AppCompatActivity {
                                             .setCallback(new FutureCallback<JsonObject>() {
                                                 @Override
                                                 public void onCompleted(Exception e, JsonObject result) {
-
+                                                    Log.d("44444", "token change result : " + String.valueOf(result));
                                                 }
                                             });
                                     redirectMainActivity();

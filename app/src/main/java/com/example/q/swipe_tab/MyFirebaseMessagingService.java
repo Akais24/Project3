@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -24,11 +25,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import static android.support.constraint.Constraints.TAG;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService{
-    final int MAIN_POPUP = 4500;
 
     @Override
     public void onMessageReceived(final RemoteMessage remoteMessage) {
@@ -55,9 +57,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(new Runnable() {
                 public void run() {
-                    Toast.makeText(getApplicationContext(), remoteMessage.getNotification().getBody(), Toast.LENGTH_LONG).show();
 
-                    String body = "{\"name\" : \"재영\", \"nickname\" : \"altair\", \"info\": \"마루\", \"price\" : 8000, \"date\" : \"11/21\", \"account\": \"우리 1002\"}";
+                    String raw_message = remoteMessage.getNotification().getBody();
+
+//                    String str = raw_message.split(" ")[0];
+//                    str = str.replace("\\","");
+//                    String[] arr = str.split("u");
+//                    String text = "";
+//                    for(int i = 1; i < arr.length; i++){
+//                        int hexVal = Integer.parseInt(arr[i], 16);
+//                        text += (char)hexVal;
+//                    }
+
+                    Toast.makeText(getApplicationContext(), raw_message, Toast.LENGTH_LONG).show();
+
+                    String body = raw_message;
                     JsonElement jsonElement = new JsonParser().parse(body);
                     JsonObject target = jsonElement.getAsJsonObject();
 
@@ -65,27 +79,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
                     String nickname = target.get("nickname").toString().split("\"")[1];
                     String info = target.get("info").toString().split("\"")[1];
                     String price = target.get("price").toString();
-                    String date = target.get("nickname").toString().split("\"")[1];
-                    String account_info = target.get("info").toString().split("\"")[1];
+                    String date = target.get("date").toString().split("\"")[1];
+                    String unique_id = target.get("creditor_unique_id").toString().split("\"")[1];
 
                     Log.d("5555", name);
                     Log.d("5555", nickname);
                     Log.d("5555", info);
                     Log.d("5555", price);
+                    Log.d("5555", unique_id);
 
-                    Context mContext =getApplicationContext();
+                    Context mContext = getApplicationContext();
 
                     Intent main_popup = new Intent(mContext, MainActivity.class);
                     main_popup.putExtra("is_popup", true);
-                    main_popup.putExtra("creditor_name", name);
-                    main_popup.putExtra("creditor_nickname", nickname);
-                    main_popup.putExtra("creditor_info", info);
-                    main_popup.putExtra("creditor_price", price);
-                    main_popup.putExtra("creditor_date", date);
-                    main_popup.putExtra("creditor_account_info", account_info);
+
+                    MainActivity.Event newone = new MainActivity.Event("0", unique_id, name, nickname, Integer.parseInt(price), date, info);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("target", newone);
+                    main_popup.putExtras(bundle);
 
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext.getApplicationContext(), "notify_001");
-                    PendingIntent pendingIntent = PendingIntent.getActivity(mContext, MAIN_POPUP, main_popup, 0);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, main_popup, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     String title = String.format("%s(%s) 님께서 입금을 요청했습니다", name, nickname);
                     String bigcontent = String.format("%s 건에 대해서 %s원을 요청했습니다", info, price);

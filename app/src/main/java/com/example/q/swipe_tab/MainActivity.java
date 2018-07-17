@@ -45,6 +45,7 @@ import android.widget.Toast;
 import com.example.q.swipe_tab.AddEvent.AddActivity;
 import com.example.q.swipe_tab.Random.Random_Camera_Activity;
 import com.example.q.swipe_tab.Random.Random_Normal_Activity;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -65,7 +66,6 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private static final int REQUEST_TAKE_PHOTO = 3000;
-    final int MAIN_POPUP = 4500;
     final int SEND = 0;
     final int RECEIVE = 1;
 
@@ -100,6 +100,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences test;
 
+    Intent from;
+    Event notificationEvent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         receive_more.setOnClickListener(this);
         settings.setOnClickListener(this);
 
-        Intent from = getIntent();
+        from = getIntent();
         boolean ispopup = from.getBooleanExtra("is_popup", false);
 
         test = getSharedPreferences("local", MODE_PRIVATE);
@@ -166,38 +169,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         permissions[2] = Manifest.permission.INTERNET;
 
         if(ispopup){
-            show_dialog();
+            notificationEvent = (MainActivity.Event) from.getSerializableExtra("target");
+
+            Intent detail = new Intent(this, MoreInfo_DetailActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("target", notificationEvent);
+            detail.putExtras(bundle);
+            detail.putExtra("category", SEND);
+
+            startActivity(detail);
         }
-    }
 
-    public void show_dialog(){
-        Intent from = getIntent();
-
-        String c_name = from.getStringExtra("creditor_name");
-        String c_nickname = from.getStringExtra("creditor_nickname");
-        String c_info = from.getStringExtra("creditor_info");
-        String c_price = from.getStringExtra("creditor_price");
-        String c_date = from.getStringExtra("creditor_date");
-        String c_account_info = from.getStringExtra("creditor_account_info");
-
-        Event target = new Event("0", "unique_id", c_name, c_nickname, Integer.parseInt(c_price), c_date, c_info);
-
-        Context mContext = getApplicationContext();
-        Intent detail = new Intent(mContext, MoreInfo_DetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("target", target);
-        detail.putExtras(bundle);
-        detail.putExtra("category", SEND);
-
-        NotificationManager nm =
-                (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-
-        // 등록된 notification 을 제거 한다.
-        nm.cancel(1234);
-
-
-        mContext.startActivity(detail);
-        return;
+        String isthistoken = FirebaseInstanceId.getInstance().getToken();
+        Log.d("tokentoken", isthistoken);
     }
 
     public void update_main(){
