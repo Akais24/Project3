@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.q.swipe_tab.AddEvent.AddActivity;
 import com.microsoft.projectoxford.face.*;
@@ -91,6 +92,8 @@ public class Random_Camera_Activity extends AppCompatActivity implements View.On
             target = rotateBitmap(bm, orientation);
             img.setImageBitmap(target);
             recog_btn.setOnClickListener(this);
+        }else{
+            Toast.makeText(getApplicationContext(), "사진 촬영에서 오류가 발생했습니다. 재시도해주시길 바랍니다", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -99,8 +102,7 @@ public class Random_Camera_Activity extends AppCompatActivity implements View.On
     private void detectAndFrame(final Bitmap imageBitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-        ByteArrayInputStream inputStream =
-                new ByteArrayInputStream(outputStream.toByteArray());
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
 
         AsyncTask<InputStream, String, Face[]> detectTask =
                 new AsyncTask<InputStream, String, Face[]>() {
@@ -146,11 +148,17 @@ public class Random_Camera_Activity extends AppCompatActivity implements View.On
                     }
                     @Override
                     protected void onPostExecute(Face[] result) {
-                        detectionProgressDialog.dismiss();
+                        //detectionProgressDialog.dismiss();
+                        detectionProgressDialog.hide();
+                        if (result == null || result.length == 0){
+                            Toast.makeText(getApplicationContext(), "아무도 사람얼굴로\n인식되지 않았습니다", Toast.LENGTH_SHORT).show();
+                            recog_btn.setText("결과 발표!");
+                            recog_btn.setClickable(false);
+                            return;
+                        }
                         if(!exceptionMessage.equals("")){
                             showError(exceptionMessage);
                         }
-                        if (result == null) return;
                         ImageView imageView = findViewById(R.id.img_view);
                         imageView.setImageBitmap(
                                 drawFaceRectanglesOnBitmap(imageBitmap, result));
@@ -166,7 +174,7 @@ public class Random_Camera_Activity extends AppCompatActivity implements View.On
     private void showError(String message) {
         new AlertDialog.Builder(this)
                 .setTitle("Error")
-                .setMessage(message)
+                .setMessage("다시 인식버튼을 눌러주시길 바랍니다")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }})
@@ -190,26 +198,28 @@ public class Random_Camera_Activity extends AppCompatActivity implements View.On
         specialpaint.setStrokeWidth(10);
 
         if (faces != null) {
-            int lucky_number = new Random().nextInt(faces.length);
-            int count = 0;
-            for (Face face : faces) {
-                FaceRectangle faceRectangle = face.faceRectangle;
-                if(lucky_number == count){
-                    canvas.drawRect(
-                            faceRectangle.left,
-                            faceRectangle.top,
-                            faceRectangle.left + faceRectangle.width,
-                            faceRectangle.top + faceRectangle.height,
-                            specialpaint);
-                }else {
-                    canvas.drawRect(
-                            faceRectangle.left,
-                            faceRectangle.top,
-                            faceRectangle.left + faceRectangle.width,
-                            faceRectangle.top + faceRectangle.height,
-                            paint);
+            if(faces.length > 0) {
+                int lucky_number = new Random().nextInt(faces.length);
+                int count = 0;
+                for (Face face : faces) {
+                    FaceRectangle faceRectangle = face.faceRectangle;
+                    if (lucky_number == count) {
+                        canvas.drawRect(
+                                faceRectangle.left,
+                                faceRectangle.top,
+                                faceRectangle.left + faceRectangle.width,
+                                faceRectangle.top + faceRectangle.height,
+                                specialpaint);
+                    } else {
+                        canvas.drawRect(
+                                faceRectangle.left,
+                                faceRectangle.top,
+                                faceRectangle.left + faceRectangle.width,
+                                faceRectangle.top + faceRectangle.height,
+                                paint);
+                    }
+                    count++;
                 }
-                count++;
             }
         }
         return bitmap;

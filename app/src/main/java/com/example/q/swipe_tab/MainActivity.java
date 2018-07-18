@@ -406,7 +406,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 
-
     private void captureCamera() {
         if(checkselfpermission(permissions)) {
             Toast.makeText(getApplicationContext(), "카메라와 파일 접근 권한이 없어 실행할 수 없습니다. 앱을 재실행하여 권한을 허가해주시길 바랍니다", Toast.LENGTH_LONG).show();
@@ -473,5 +472,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(isFabOpen) anim();
+        else finish();
     }
 }
