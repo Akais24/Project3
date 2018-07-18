@@ -16,7 +16,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.q.swipe_tab.MainActivity;
 import com.example.q.swipe_tab.R;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -32,7 +34,6 @@ public class LoginActivity  extends Activity {
     private static final int MY_PERMISSION = 1111;
 
     private String[] permissions;
-
     private SessionCallback callback;      //콜백 선언
 
     @Override
@@ -46,29 +47,36 @@ public class LoginActivity  extends Activity {
         permissions[2] = Manifest.permission.INTERNET;
         checkPermission();
 
-        callback = new SessionCallback();                  // 이 두개의 함수 중요함
-        Session.getCurrentSession().addCallback(callback);
-
-        String hashkey = getKeyHash(getApplicationContext());
-        Log.d("4444", hashkey);
-    }
-
-    public static String getKeyHash(final Context context) {
-        PackageInfo packageInfo = getPackageInfo(context, PackageManager.GET_SIGNATURES);
-        if (packageInfo == null)
-            return null;
-
-        for (Signature signature : packageInfo.signatures) {
-            try {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                return Base64.encodeToString(md.digest(), Base64.NO_WRAP);
-            } catch (NoSuchAlgorithmException e) {
-                Log.w("444444", "Unable to get MessageDigest. signature=" + signature, e);
-            }
+        if(Session.getCurrentSession().checkAndImplicitOpen()){
+            Toast.makeText(getApplicationContext(), "자동로그인되었습니다", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }else{
+            callback = new SessionCallback();                  // 이 두개의 함수 중요함
+            Session.getCurrentSession().addCallback(callback);
         }
-        return null;
+
+//        String hashkey = getKeyHash(getApplicationContext());
+//        Log.d("4444", hashkey);
     }
+
+//    public static String getKeyHash(final Context context) {
+//        PackageInfo packageInfo = getPackageInfo(context, PackageManager.GET_SIGNATURES);
+//        if (packageInfo == null)
+//            return null;
+//
+//        for (Signature signature : packageInfo.signatures) {
+//            try {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                return Base64.encodeToString(md.digest(), Base64.NO_WRAP);
+//            } catch (NoSuchAlgorithmException e) {
+//                Log.w("444444", "Unable to get MessageDigest. signature=" + signature, e);
+//            }
+//        }
+//        return null;
+//    }
 
 
     @Override
@@ -96,8 +104,8 @@ public class LoginActivity  extends Activity {
                 Logger.e(exception);
             }
             Log.d("44444", "failure");
-            setContentView(R.layout.activity_login); // 세션 연결이 실패했을때
-        }                                            // 로그인화면을 다시 불러옴
+            setContentView(R.layout.activity_login); // 세션 연결이 실패했을때, 로그인화면을 다시 불러옴
+        }
     }
 
     protected void redirectSignupActivity() {       //세션 연결 성공 시 SignupActivity로 넘김

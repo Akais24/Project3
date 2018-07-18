@@ -200,6 +200,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
+                        if(result == null){
+                            Toast.makeText(getApplicationContext(), "오류가 발생하였습니다", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         Log.d("4444 debtor :", String.valueOf(result));
                         int total_send_amount = 0;
                         for(int i=0; i<result.size(); i++){

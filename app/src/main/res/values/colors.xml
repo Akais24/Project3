@@ -7,6 +7,7 @@
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="kakao_theme">#FAFF00</color>
+    <color name="kakao_theme_soft">#FFFE98</color>
     <color name="kakao_brown">#3C1E1B</color>
 
     <color name="sy_pink">#FFA2C9</color>

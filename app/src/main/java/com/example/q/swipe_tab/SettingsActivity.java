@@ -4,20 +4,23 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.q.swipe_tab.Login.LoginActivity;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-
-import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
     EditText change_uinfo_name;
@@ -27,10 +30,18 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     String name, nickname, account_info, searchurl, uid;
     Gson gson = new Gson();
     SharedPreferences info;
+
+    CardView logout;
+
+    public static Activity myself;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        myself = SettingsActivity.this;
+
         info = getSharedPreferences("local", MODE_PRIVATE);
         name = info.getString("name", null);
         nickname = info.getString("nickname", null);
@@ -41,6 +52,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         change_uinfo_nickname = findViewById(R.id.change_uinfo_nickname);
         change_uinfo_account_info = findViewById(R.id.change_uinfo_account_info);
         submit_uinfo = findViewById(R.id.submit_uinfo);
+        logout = findViewById(R.id.logout_btn);
 
         testbutton = findViewById(R.id.button);
         change_uinfo_name.setText(name);
@@ -54,6 +66,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         change_uinfo_nickname.setOnClickListener(this);
         change_uinfo_account_info.setOnClickListener(this);
         submit_uinfo.setOnClickListener(this);
+        logout.setOnClickListener(this);
         searchurl = "http://52.231.153.77:8080/update_user";
     }
 
@@ -127,6 +140,23 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                                 }
                             });
                     break;
+                case R.id.logout_btn:
+                    requestLogout();
+                    break;
             }
         }
+
+    protected void requestLogout() { //유저의 정보를 받아오는 함수
+        UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+            @Override
+            public void onCompleteLogout() {
+                SharedPreferences.Editor edit = info.edit();
+                edit.clear();
+                edit.commit();
+                ActivityCompat.finishAffinity(myself);
+                Intent login = new Intent(myself, LoginActivity.class);
+                startActivity(login);
+            }
+        });
+    }
 }
