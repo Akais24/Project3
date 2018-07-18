@@ -148,7 +148,7 @@ public class MoreInfo_DetailActivity extends AppCompatActivity implements View.O
                             public void onCompleted(Exception e, JsonObject result) {
                                 simple_response new2 = gson.fromJson(result, simple_response.class);
                                 if (!new2.result.equals("Success")) {
-                                    Toast.makeText(getApplicationContext(), "회원 정보 변경에 실패하였습니다inbutton.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "독촉에 실패하였습니다", Toast.LENGTH_SHORT).show();
                                     return;
                                 } else {
                                     SharedPreferences.Editor editor = ForToken.edit();
@@ -156,7 +156,8 @@ public class MoreInfo_DetailActivity extends AppCompatActivity implements View.O
                                     editor.putString("name", name);
                                     editor.putString("nickname", nickname);
                                     editor.commit();
-                                    Log.d("44444", "회원 정보 변경에 성공하였습니다inbutton.");
+                                    Toast.makeText(getApplicationContext(), "독촉에 성공하였습니다", Toast.LENGTH_SHORT).show();
+                                    Log.d("44444", "독촉성공");
                                     finish();
                                 }
                             }

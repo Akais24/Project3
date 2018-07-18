@@ -105,6 +105,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     return;
                 case R.id.backto_main:
                     finish();
+                    break;
                 case R.id.submit_uinfo:
                     if (change_uinfo_account_info.getText().length()>0){ account_info = change_uinfo_account_info.getText().toString();}
                     if (change_uinfo_name.getText().length()>0){ nickname = change_uinfo_nickname.getText().toString();}
@@ -125,7 +126,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                                     Log.d("88888", " INSIDE YOUOHOH");
                                     simple_response newone = gson.fromJson(result, simple_response.class);
                                     Log.d("87878", "HEHEHEHeHE");
-                                    if (!newone.result.equals("Success")) {
+                                    if (result == null || !newone.result.equals("Success")) {
                                         Toast.makeText(getApplicationContext(), "회원 정보 변경에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                                         return;
                                     } else {
