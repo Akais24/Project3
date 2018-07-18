@@ -169,6 +169,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         permissions[2] = Manifest.permission.INTERNET;
 
         if(ispopup){
+            NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            nm.cancel(1234);
+
             notificationEvent = (MainActivity.Event) from.getSerializableExtra("target");
 
             Intent detail = new Intent(this, MoreInfo_DetailActivity.class);
@@ -178,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             detail.putExtra("category", SEND);
 
             startActivity(detail);
+            finish();
         }
 
         String isthistoken = FirebaseInstanceId.getInstance().getToken();
