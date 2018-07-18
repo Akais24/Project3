@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -130,8 +131,37 @@ public class MoreInfo_DetailActivity extends AppCompatActivity implements View.O
 
         switch (v.getId()){
             case R.id.ask_again:
-                showtoast("독촉하기는 준비중~");
-                break;
+                String isthistoken = FirebaseInstanceId.getInstance().getToken();
+                Log.d("mytokeninclick", isthistoken);
+                String test = "TEST";
+                Log.d("8888", "Hellofromtheotherside");
+                final SharedPreferences ForToken = getSharedPreferences("local", MODE_PRIVATE);
+                JsonObject json = new JsonObject();
+                json.addProperty("unique_id", ForToken.getString("unique_id", null));
+                json.addProperty("ID", target.ID);
+                Ion.with(getApplicationContext())
+                        .load("POST", "http://52.231.153.77:8080/push")
+                        .setJsonObjectBody(json)
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                simple_response new2 = gson.fromJson(result, simple_response.class);
+                                if (!new2.result.equals("Success")) {
+                                    Toast.makeText(getApplicationContext(), "회원 정보 변경에 실패하였습니다inbutton.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                } else {
+                                    SharedPreferences.Editor editor = ForToken.edit();
+                                    editor.putString("acount_info", account_info);
+                                    editor.putString("name", name);
+                                    editor.putString("nickname", nickname);
+                                    editor.commit();
+                                    Log.d("44444", "회원 정보 변경에 성공하였습니다inbutton.");
+                                    finish();
+                                }
+                            }
+                        });
+                return;
             case R.id.only_number:
                 String[] words = creditor_account.split(" ");
                 if(words.length == 1){
