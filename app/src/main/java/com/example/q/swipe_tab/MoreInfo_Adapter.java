@@ -49,7 +49,7 @@ public class MoreInfo_Adapter extends RecyclerView.Adapter<MoreInfo_Adapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final MainActivity.Event target= events.get(position);
 
         holder.id.setText(String.valueOf(target.ID));
@@ -79,19 +79,23 @@ public class MoreInfo_Adapter extends RecyclerView.Adapter<MoreInfo_Adapter.View
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 JsonObject id_object = new JsonObject();
-                                id_object.addProperty("ID", target.ID);
+                                id_object.addProperty("ID", Integer.parseInt(target.ID));
+                                //id_object.addProperty("ID", 35);
+
                                 Ion.with(mContext)
-                                        .load("Post", "http://52.231.153.77:8080/" + "")
+                                        .load("Post", "http://52.231.153.77:8080/" + "delete_event")
                                         .setJsonObjectBody(id_object)
                                         .asJsonObject()
                                         .setCallback(new FutureCallback<JsonObject>() {
                                             @Override
                                             public void onCompleted(Exception e, JsonObject result) {
                                                 simple_response newone = gson.fromJson(result, simple_response.class);
-                                                if(!newone.result.equals("Success")){
+                                                if(result == null || !newone.result.equals("Success")){
                                                     Toast.makeText(mContext, "청산에 실패하였습니다", Toast.LENGTH_SHORT).show();
                                                 }else{
                                                     Toast.makeText(mContext, "성공적으로 청산했습니다", Toast.LENGTH_SHORT).show();
+                                                    events.remove(position);
+                                                    notifyDataSetChanged();
                                                 }
                                             }
                                         });

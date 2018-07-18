@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         JsonObject json = new JsonObject();
         json.addProperty("unique_id", unique_id);
+        Log.d("44444", "unique id : " + unique_id);
 
         Ion.with(getApplicationContext())
                 .load("POST", server_url + "search_as_debtor")
@@ -205,20 +206,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
                         if(result == null){
-                            Toast.makeText(getApplicationContext(), "오류가 발생하였습니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "debtor 오류가 발생하였습니다", Toast.LENGTH_SHORT).show();
                             return;
-                        }
-                        Log.d("4444 debtor :", String.valueOf(result));
-                        int total_send_amount = 0;
-                        for(int i=0; i<result.size(); i++){
-                            Event newevent = gson.fromJson(result.get(i), Event.class);
-                            send_list.add(newevent);
-                            total_send_amount += newevent.price;
+                        }else {
+                            Log.d("4444 debtor :", String.valueOf(result));
+                            int total_send_amount = 0;
+                            for (int i = 0; i < result.size(); i++) {
+                                Event newevent = gson.fromJson(result.get(i), Event.class);
+                                send_list.add(newevent);
+                                total_send_amount += newevent.price;
+                            }
+                            send_adapter = new Statistic_Adapter(getApplicationContext(), send_list);
+                            send_rv.setAdapter(send_adapter);
+                            send_total.setText(String.valueOf(total_send_amount) + "원");
                         }
                         count[0]++;
-                        send_adapter = new Statistic_Adapter(getApplicationContext(), send_list);
-                        send_rv.setAdapter(send_adapter);
-                        send_total.setText(String.valueOf(total_send_amount) + "원");
                         if(count[0] == 2){
                             mProgressDialog.hide();
                         }
@@ -231,17 +233,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
-                        Log.d("4444 creditor :", String.valueOf(result));
-                        int total_receive_amount = 0;
-                        for(int i=0; i<result.size(); i++){
-                            Event newevent = gson.fromJson(result.get(i), Event.class);
-                            receive_list.add(newevent);
-                            total_receive_amount  += newevent.price;
+                        if(result == null){
+                            Toast.makeText(getApplicationContext(), "creditor 오류가 발생하였습니다", Toast.LENGTH_SHORT).show();
+                            return;
+                        }else {
+                            int total_receive_amount = 0;
+                            for (int i = 0; i < result.size(); i++) {
+                                Event newevent = gson.fromJson(result.get(i), Event.class);
+                                receive_list.add(newevent);
+                                total_receive_amount += newevent.price;
+                            }
+                            count[0]++;
+                            receive_adapter = new Statistic_Adapter(getApplicationContext(), receive_list);
+                            receive_rv.setAdapter(receive_adapter);
+                            receive_total.setText(String.valueOf(total_receive_amount) + "원");
                         }
-                        count[0]++;
-                        receive_adapter = new Statistic_Adapter(getApplicationContext(), receive_list);
-                        receive_rv.setAdapter(receive_adapter);
-                        receive_total.setText(String.valueOf(total_receive_amount) + "원");
                         if(count[0] == 2){
                             mProgressDialog.hide();
                         }
